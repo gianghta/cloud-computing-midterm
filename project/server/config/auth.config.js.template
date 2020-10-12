@@ -1,0 +1,5 @@
+// Have to create a 'auth.config.js' file and insert the secret key for the project
+
+module.exports = {
+  secret: ''
+};
