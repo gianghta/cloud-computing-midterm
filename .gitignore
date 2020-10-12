@@ -107,3 +107,4 @@ dist
 
 # Config file
 default.json
+auth.config.js

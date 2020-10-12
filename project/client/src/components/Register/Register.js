@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 import './Register.css';
 import makeStyles from "@material-ui/core/styles/makeStyles";
@@ -34,6 +34,19 @@ const useStyles = makeStyles((theme) => ({
 const Register = () => {
   const classes = useStyles();
 
+  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [passwordConfirm, setPasswordConfirm] = useState('');
+
+  function validateForm() {
+    return email.length > 0 && username.length > 0 && password.length > 0 && password === passwordConfirm;
+  }
+
+  function handleSubmit(event) {
+    event.preventDefault();
+  }
+
   return (
     <div className="Register" data-testid="Register">
       <Container component="main" maxWidth="xs">
@@ -42,7 +55,7 @@ const Register = () => {
           <Typography component="h1" variant="h5">
             Sign Up
           </Typography>
-          <form className={classes.form} noValidate>
+          <form className={classes.form} noValidate onSubmit={handleSubmit}>
             <TextField
               variant="outlined"
               margin="normal"
@@ -51,6 +64,8 @@ const Register = () => {
               id="email"
               label="Email Address"
               name="email"
+              value={email}
+              onChange={e => setEmail(e.target.value)}
             />
             <TextField
               variant="outlined"
@@ -60,6 +75,8 @@ const Register = () => {
               id="username"
               label="Username"
               name="username"
+              value={username}
+              onChange={e => setUsername(e.target.value)}
             />
             <TextField
               variant="outlined"
@@ -69,6 +86,8 @@ const Register = () => {
               id="password"
               label="Password"
               name="password"
+              value={password}
+              onChange={e => setPassword(e.target.value)}
             />
             <TextField
               variant="outlined"
@@ -78,13 +97,17 @@ const Register = () => {
               id="password-confirm"
               label="Confirm Password"
               name="password-confirm"
+              value={passwordConfirm}
+              onChange={e => setPasswordConfirm(e.target.value)}
             />
             <Button
               type="submit"
               fullWidth
               variant="contained"
               color="primary"
-              className={classes.submit}>
+              className={classes.submit}
+              disabled={!validateForm()}
+            >
               Sign Up
             </Button>
             <Grid container justify="flex-end">

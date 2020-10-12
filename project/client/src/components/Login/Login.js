@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 import './Login.css';
 import Container from "@material-ui/core/Container";
@@ -9,6 +9,8 @@ import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import Link from "@material-ui/core/Link";
 import makeStyles from "@material-ui/core/styles/makeStyles";
+import { login } from "../../actions/auth";
+import { connect } from 'react-redux';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -31,8 +33,30 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Login = () => {
+
+const Login = (props) => {
+  console.log(props);
   const classes = useStyles();
+
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+
+  function validateForm() {
+    return username.length > 0 && password.length > 0;
+  }
+
+  function handleLogin(event) {
+    event.preventDefault();
+
+    props.dispatch(login(username, password))
+      .then(() => {
+        props.history.push('/');
+        window.location.reload();
+      })
+      .catch(() => {
+        //
+      });
+  }
 
   return (
     <div className="Login" data-testid="Login">
@@ -42,7 +66,7 @@ const Login = () => {
           <Typography component="h1" variant="h5">
             Sign In
           </Typography>
-          <form className={classes.form} noValidate>
+          <form className={classes.form} noValidate onSubmit={handleLogin}>
             <TextField
               variant="outlined"
               margin="normal"
@@ -52,6 +76,8 @@ const Login = () => {
               label="Username"
               name="username"
               autoFocus
+              value={username}
+              onChange={e => setUsername(e.target.value)}
             />
             <TextField
               variant="outlined"
@@ -61,6 +87,8 @@ const Login = () => {
               id="password"
               label="Password"
               name="password"
+              value={password}
+              onChange={e => setPassword(e.target.value)}
             />
             <Button
               type="submit"
@@ -68,13 +96,12 @@ const Login = () => {
               variant="contained"
               color="primary"
               className={classes.submit}
+              disabled={!validateForm()}
             >
               Sign In
             </Button>
             <Grid container>
-              <Grid item xs>
-
-              </Grid>
+              <Grid item xs />
               <Grid item>
                 <Link href="/register" variant="body2">
                   {"Don't have an account? Sign Up!"}
@@ -92,4 +119,14 @@ Login.propTypes = {};
 
 Login.defaultProps = {};
 
-export default Login;
+function mapStateToProps(state) {
+  const { isLoggedIn } = state.auth;
+  const { message } = state.message;
+
+  return {
+    isLoggedIn,
+    message,
+  };
+}
+
+export default connect(mapStateToProps)(Login);
