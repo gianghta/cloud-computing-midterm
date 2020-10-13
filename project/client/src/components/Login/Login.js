@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import './Login.css';
 import Container from "@material-ui/core/Container";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -11,6 +11,8 @@ import Link from "@material-ui/core/Link";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import { login } from "../../actions/auth";
 import { connect } from 'react-redux';
+import {Redirect} from "react-router";
+import Alert from "@material-ui/lab/Alert";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -35,7 +37,6 @@ const useStyles = makeStyles((theme) => ({
 
 
 const Login = (props) => {
-  console.log(props);
   const classes = useStyles();
 
   const [username, setUsername] = useState('');
@@ -58,6 +59,10 @@ const Login = (props) => {
       });
   }
 
+  if (props.isLoggedIn) {
+    return <Redirect to="/" />
+  }
+  
   return (
     <div className="Login" data-testid="Login">
       <Container component="main" maxWidth="xs">
@@ -90,6 +95,15 @@ const Login = (props) => {
               value={password}
               onChange={e => setPassword(e.target.value)}
             />
+
+            {props.message && (
+              <div>
+                <Alert severity="error">
+                  {props.message}
+                </Alert>
+              </div>
+            )}
+
             <Button
               type="submit"
               fullWidth

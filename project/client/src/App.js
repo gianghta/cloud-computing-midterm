@@ -11,29 +11,12 @@ import Home from "./components/Home/Home";
 import Login from './components/Login/Login';
 import Register from './components/Register/Register';
 import GlobalToolbar from "./components/GlobalToolbar/GlobalToolbar";
+import Players from './components/Players/Players';
+import MyTeam from './components/MyTeam/MyTeam';
 
-
-// function App() {
-//   return (
-//     <div className="App">
-//       <header className="App-header">
-//         <GlobalToolbar />
-//         <BrowserRouter>
-//           <Switch>
-//             {/*<Route exact path="/" component={Test} />*/}
-//             <Route exact path="/" component={Home} />
-//             <Route path="/login" component={Login} />
-//             <Route path="/register" component={Register} />
-//           </Switch>
-//         </BrowserRouter>
-//       </header>
-//     </div>
-//   );
-// }
 
 class App extends Component {
   constructor(props) {
-    console.log(props);
     super(props);
     this.logOut = this.logOut.bind(this);
 
@@ -63,7 +46,7 @@ class App extends Component {
   }
 
   render() {
-    const { currentUser, showUserBoard } = this.state;
+    // const { currentUser, showUserBoard } = this.state;
 
     return (
       <div className="App">
@@ -74,6 +57,8 @@ class App extends Component {
               <Route exact path="/" component={Home} />
               <Route path="/login" component={Login} />
               <Route path="/register" component={Register} />
+              <Route path="/players" component={Players} />
+              <Route path="/my-team" component={MyTeam} />
             </Switch>
           </Router>
         </header>
@@ -84,10 +69,10 @@ class App extends Component {
 
 function mapStateToProps(state) {
   const { user } = state.auth;
+
   return {
     user,
   };
 }
 
-// export default App;
 export default connect(mapStateToProps)(App);
