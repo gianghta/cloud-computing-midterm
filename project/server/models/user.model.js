@@ -14,16 +14,16 @@ const User = mongoose.model(
 		],
 		team: {
 			quarterback: {
-				type: ObjectId
+				type: mongoose.Schema.Types.ObjectId
 			},
 			runningBack: {
-				type: ObjectId
+				type: mongoose.Schema.Types.ObjectId
 			},
 			tightEnd: {
-				type: ObjectId
+				type: mongoose.Schema.Types.ObjectId
 			},
 			wideReceiver: {
-				type: ObjectId
+				type: mongoose.Schema.Types.ObjectId
 			}
 		}
 	})

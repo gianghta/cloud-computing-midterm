@@ -11,8 +11,18 @@ exports.userBoard = (req, res) => {
 
 exports.currentUser = (req, res) => {
 	try {
-		const userProfile = User.findOne({ username: req.username });
+		const userProfile = User.findOne({ username: req.username }, 'team');
 		res.json(userProfile);
+	} catch (error) {
+		console.log(error.message);
+		res.status(500).send('Server Error');
+	}
+};
+
+exports.allUsers = (req, res) => {
+	try {
+		const allUserProfiles = User.find({}, 'team');
+		res.json(allUserProfile);
 	} catch (error) {
 		console.log(error.message);
 		res.status(500).send('Server Error');
