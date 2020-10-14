@@ -11,7 +11,7 @@ exports.userBoard = (req, res) => {
 
 exports.currentUser = (req, res) => {
 	try {
-		const userProfile = User.findOne({ username: req.username }, 'team');
+		const userProfile = User.findOne({ username: req.username });
 		res.json(userProfile);
 	} catch (error) {
 		console.log(error.message);
@@ -21,7 +21,7 @@ exports.currentUser = (req, res) => {
 
 exports.allUsers = (req, res) => {
 	try {
-		const allUserProfiles = User.find({}, 'team');
+		const allUserProfiles = User.find({});
 		res.json(allUserProfile);
 	} catch (error) {
 		console.log(error.message);
