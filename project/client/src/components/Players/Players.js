@@ -21,6 +21,184 @@ const useStyles = makeStyles((theme) => ({
 const Players = (props) => {
   const classes = useStyles();
 
+  // quarterback
+  const quarterbackRowsProp = [];
+  const quarterbackColumns = [
+    {
+      field: 'id',
+      hide: true,
+    },
+    {
+      field: 'Player',
+      headerName: 'Name',
+      width: 200,
+    },
+    {
+      field: 'Tm',
+      headerName: 'Team',
+    },
+    {
+      field: 'Yds',
+      headerName: 'Passing Yards',
+      type: 'number',
+      width: 150,
+    },
+    {
+      field: 'TD',
+      headerName: 'Touchdowns',
+      type: 'number',
+      width: 150,
+    },
+    {
+      field: 'Int',
+      headerName: 'Interceptions',
+      type: 'number',
+      width: 150,
+    },
+    {
+      field: 'QBR',
+      headerName: 'Quarterback Rating',
+      type: 'number',
+      width: 200,
+    },
+  ];
+
+  // running back
+  const runningBackRowsProp = [];
+  const runningBackColumns = [
+    {
+      field: 'id',
+      hide: true,
+    },
+    {
+      field: 'Player',
+      headerName: 'Name',
+      width: 200,
+    },
+    {
+      field: 'Tm',
+      headerName: 'Team',
+    },
+    {
+      field: 'Yds',
+      headerName: 'Total Yards',
+      type: 'number',
+      width: 150,
+    },
+    {
+      field: 'Lng',
+      headerName: 'Longest Run',
+      type: 'number',
+      width: 150,
+    },
+    {
+      field: 'Y/G',
+      headerName: 'Yards per Game',
+      type: 'number',
+      width: 150,
+    },
+    {
+      field: 'Fmb',
+      headerName: 'Fumbles',
+      type: 'number',
+      width: 150,
+    },
+  ];
+
+  // wide receiver
+  const wideReceiverRowsProp = [];
+  const wideReceiverColumns = [
+    {
+      field: 'id',
+      hide: true,
+    },
+    {
+      field: 'Player',
+      headerName: 'Name',
+      width: 200,
+    },
+    {
+      field: 'Tm',
+      headerName: 'Team',
+    },
+    {
+      field: 'Yds',
+      headerName: 'Total Yards',
+      type: 'number',
+      width: 150,
+    },
+    {
+      field: 'Rec',
+      headerName: 'Receptions',
+      type: 'number',
+      width: 150,
+    },
+    {
+      field: 'Ctch%',
+      headerName: 'Catch Percentage',
+      width: 150,
+    },
+    {
+      field: 'Lng',
+      headerName: 'Longest Catch',
+      type: 'number',
+      width: 150,
+    },
+    {
+      field: 'Y/G',
+      headerName: 'Yards per Game',
+      type: 'number',
+      width: 150,
+    },
+  ];
+
+  // tight end
+  const tightEndRowsProp = [];
+  const tightEndColumns = [
+    {
+      field: 'id',
+      hide: true,
+    },
+    {
+      field: 'Player',
+      headerName: 'Name',
+      width: 200,
+    },
+    {
+      field: 'Tm',
+      headerName: 'Team',
+    },
+    {
+      field: 'Yds',
+      headerName: 'Total Yards',
+      type: 'number',
+      width: 150,
+    },
+    {
+      field: 'Rec',
+      headerName: 'Receptions',
+      type: 'number',
+      width: 150,
+    },
+    {
+      field: 'Ctch%',
+      headerName: 'Catch Percentage',
+      width: 150,
+    },
+    {
+      field: 'Lng',
+      headerName: 'Longest Catch',
+      type: 'number',
+      width: 150,
+    },
+    {
+      field: 'Y/G',
+      headerName: 'Yards per Game',
+      type: 'number',
+      width: 150,
+    },
+  ];
+
   if (!props.isLoggedIn) {
     return (
       <Redirect to="/" />
@@ -45,7 +223,7 @@ const Players = (props) => {
               Quarter Backs
             </Typography>
             <div style={{ height: 500, width: '100%', marginTop: '0.5rem', }}>
-              {/*<DataGrid rows={standingsRowsProp} columns={standingsColumns} />*/}
+              <DataGrid rows={quarterbackRowsProp} columns={quarterbackColumns} />
             </div>
           </Grid>
 
@@ -55,7 +233,7 @@ const Players = (props) => {
               Running Backs
             </Typography>
             <div style={{ height: 500, width: '100%', marginTop: '0.5rem', }}>
-              {/*<DataGrid rows={standingsRowsProp} columns={standingsColumns} />*/}
+              <DataGrid rows={runningBackRowsProp} columns={runningBackColumns} />
             </div>
           </Grid>
 
@@ -65,7 +243,7 @@ const Players = (props) => {
               Wide Receivers
             </Typography>
             <div style={{ height: 500, width: '100%', marginTop: '0.5rem', }}>
-              {/*<DataGrid rows={standingsRowsProp} columns={standingsColumns} />*/}
+              <DataGrid rows={wideReceiverRowsProp} columns={wideReceiverColumns} />
             </div>
           </Grid>
 
@@ -75,7 +253,7 @@ const Players = (props) => {
               Tight Ends
             </Typography>
             <div style={{ height: 500, width: '100%', marginTop: '0.5rem', }}>
-              {/*<DataGrid rows={standingsRowsProp} columns={standingsColumns} />*/}
+              <DataGrid rows={tightEndRowsProp} columns={tightEndColumns} />
             </div>
           </Grid>
         </Grid>
