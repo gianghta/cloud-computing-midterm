@@ -4,7 +4,6 @@ const bodyParser = require('body-parser');
 const connectDB = require('./config/db');
 const defaultConnectionString = require('./config/default.json');
 
-
 // Constants
 const PORT = process.env.PORT || 8080;
 const HOST = '0.0.0.0';
@@ -23,13 +22,13 @@ const Role = db.role;
 db.mongoose
 	.connect(defaultConnectionString.mongoURI, {
 		useNewUrlParser: true,
-		useUnifiedTopology: true,
+		useUnifiedTopology: true
 	})
 	.then(() => {
 		console.log('Successfully connected to MongoDB');
 		initial();
 	})
-	.catch(err => {
+	.catch((err) => {
 		console.error('Connection error', err);
 		process.exit();
 	});
@@ -39,7 +38,7 @@ function initial() {
 		if (!err && count === 0) {
 			new Role({
 				name: 'user'
-			}).save(err => {
+			}).save((err) => {
 				if (err) {
 					console.log('error', err);
 				}
@@ -49,7 +48,7 @@ function initial() {
 
 			new Role({
 				name: 'guest'
-			}).save(err => {
+			}).save((err) => {
 				if (err) {
 					console.log('error', err);
 				}
@@ -57,9 +56,8 @@ function initial() {
 				console.log('added "guest" to roles collection');
 			});
 		}
-	})
+	});
 }
-
 
 // Static files
 app.use(express.static(CLIENT_BUILD_PATH));
@@ -67,6 +65,7 @@ app.use(express.static(CLIENT_BUILD_PATH));
 // Routes
 require('./routes/auth.routes')(app);
 require('./routes/user.routes')(app);
+require('./routes/player.routes')(app);
 
 // All remaining requests return the React app, so it can handle routing
 app.get('*', function(request, response) {
