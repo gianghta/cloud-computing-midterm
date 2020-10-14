@@ -17,7 +17,11 @@ const User = mongoose.model(
 				type: mongoose.Schema.Types.ObjectId,
 				ref: 'Quarterbacks'
 			},
-			runningBack: {
+			runningBack1: {
+				type: mongoose.Schema.Types.ObjectId,
+				ref: 'Running-Backs'
+			},
+			runningBack2: {
 				type: mongoose.Schema.Types.ObjectId,
 				ref: 'Running-Backs'
 			},
@@ -25,10 +29,14 @@ const User = mongoose.model(
 				type: mongoose.Schema.Types.ObjectId,
 				ref: 'Tight-Ends'
 			},
-			wideReceiver: {
+			wideReceiver1: {
 				type: mongoose.Schema.Types.ObjectId,
 				ref: 'Wide-Receivers'
-			}
+			},
+			wideReceiver2: {
+				type: mongoose.Schema.Types.ObjectId,
+				ref: 'Wide-Receivers'
+			},
 		}
 	})
 );
