@@ -9,9 +9,9 @@ exports.userBoard = (req, res) => {
 	res.status(200).send('User Content.');
 };
 
-exports.currentUser = (req, res) => {
+exports.currentUser = async (req, res) => {
 	try {
-		const userProfile = User.findOne({ username: req.username });
+		const userProfile = await User.findOne({ username: req.username });
 		res.json(userProfile);
 	} catch (error) {
 		console.log(error.message);
@@ -19,10 +19,10 @@ exports.currentUser = (req, res) => {
 	}
 };
 
-exports.allUsers = (req, res) => {
+exports.allUsers = async (req, res) => {
 	try {
-		const allUserProfiles = User.find({});
-		res.json(allUserProfile);
+		const allUserProfiles = await User.find();
+		res.json(allUserProfiles);
 	} catch (error) {
 		console.log(error.message);
 		res.status(500).send('Server Error');
