@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const RunningBacks = mongoose.model(
-	'RunningBacks',
+	'Running-Backs',
 	new mongoose.Schema({
 		Rk: Number,
 		Player: String,

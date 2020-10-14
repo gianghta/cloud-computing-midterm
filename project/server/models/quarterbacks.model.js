@@ -32,8 +32,8 @@ const Quarterbacks = mongoose.model(
 		'NY/A': Number,
 		'ANY/A': Number,
 		'Sk%': Number,
-		'4QC': Number,
-		GWD: Number
+		'4QC': String,
+		GWD: String
 	})
 );
 

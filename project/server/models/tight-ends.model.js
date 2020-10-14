@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const TightEnds = mongoose.model(
-	'Tight Ends',
+	'Tight-Ends',
 	new mongoose.Schema({
 		Rk: Number,
 		Player: String,

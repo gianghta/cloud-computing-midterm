@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const WideReceivers = mongoose.model(
-	'Wide Receivers ',
+	'Wide-Receivers',
 	new mongoose.Schema({
 		Rk: Number,
 		Player: String,

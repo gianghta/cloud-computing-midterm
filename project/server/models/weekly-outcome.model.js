@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const WeeklyOutcome = mongoose.model(
-	'Weekly Outcome',
+	'Weekly-Outcome',
 	new mongoose.Schema({
 		week: String,
 		day: String,
