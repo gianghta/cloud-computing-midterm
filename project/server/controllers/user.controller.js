@@ -11,7 +11,7 @@ exports.userBoard = (req, res) => {
 
 exports.currentUser = async (req, res) => {
 	try {
-		const userProfile = await User.findOne({ username: req.param.username });
+		const userProfile = await User.findOne({ username: req.params.username });
 		res.json(userProfile);
 	} catch (error) {
 		console.log(error.message);
