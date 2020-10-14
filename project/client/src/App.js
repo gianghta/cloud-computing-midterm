@@ -25,6 +25,7 @@ class App extends Component {
       currentUser: undefined,
     };
 
+    // clears the message every time the location changes
     history.listen((location) => {
       props.dispatch(clearMessage());
     });
