@@ -21,6 +21,238 @@ const useStyles = makeStyles((theme) => ({
 const Players = (props) => {
   const classes = useStyles();
 
+  // quarterback
+  function formatQuarterbackRows(quarterbacks) {
+    return quarterbacks.map(qb => {
+      return {
+        'id': qb['_id'],
+        'Player': qb['Player'],
+        'Tm': qb['Tm'],
+        'Yds': qb['Yds'],
+        'TD': qb['TD'],
+        'Int': qb['Int'],
+        'QBR': qb['QBR'],
+      };
+    });
+  }
+  const quarterbackRowsProp = formatQuarterbackRows(props.players.quarterbacks);
+  const quarterbackColumns = [
+    {
+      field: 'id',
+      hide: true,
+    },
+    {
+      field: 'Player',
+      headerName: 'Name',
+      width: 200,
+    },
+    {
+      field: 'Tm',
+      headerName: 'Team',
+    },
+    {
+      field: 'Yds',
+      headerName: 'Passing Yards',
+      type: 'number',
+      width: 150,
+    },
+    {
+      field: 'TD',
+      headerName: 'Touchdowns',
+      type: 'number',
+      width: 150,
+    },
+    {
+      field: 'Int',
+      headerName: 'Interceptions',
+      type: 'number',
+      width: 150,
+    },
+    {
+      field: 'QBR',
+      headerName: 'Quarterback Rating',
+      type: 'number',
+      width: 200,
+    },
+  ];
+
+  // running back
+  function formatRunningBackRows(runningBacks) {
+    return runningBacks.map(rb => {
+      return {
+        'id': rb['_id'],
+        'Player': rb['Player'],
+        'Tm': rb['Tm'],
+        'Yds': rb['Yds'],
+        'Lng': rb['Lng'],
+        'Y/G': rb['Y/G'],
+        'Fmb': rb['Fmb'],
+      };
+    });
+  }
+  const runningBackRowsProp = formatRunningBackRows(props.players.runningBacks);
+  const runningBackColumns = [
+    {
+      field: 'id',
+      hide: true,
+    },
+    {
+      field: 'Player',
+      headerName: 'Name',
+      width: 200,
+    },
+    {
+      field: 'Tm',
+      headerName: 'Team',
+    },
+    {
+      field: 'Yds',
+      headerName: 'Total Yards',
+      type: 'number',
+      width: 150,
+    },
+    {
+      field: 'Lng',
+      headerName: 'Longest Run',
+      type: 'number',
+      width: 150,
+    },
+    {
+      field: 'Y/G',
+      headerName: 'Yards per Game',
+      type: 'number',
+      width: 150,
+    },
+    {
+      field: 'Fmb',
+      headerName: 'Fumbles',
+      type: 'number',
+      width: 150,
+    },
+  ];
+
+  // wide receiver
+  function formatWideReceiverRows(wideReceivers) {
+    return wideReceivers.map(wr => {
+      return {
+        'id': wr['_id'],
+        'Player': wr['Player'],
+        'Tm': wr['Tm'],
+        'Yds': wr['Yds'],
+        'Rec': wr['Rec'],
+        'Ctch%': wr['Ctch%'],
+        'Lng': wr['Lng'],
+        'Y/G': wr['Y/G'],
+      };
+    });
+  }
+  const wideReceiverRowsProp = formatWideReceiverRows(props.players.wideReceivers);
+  const wideReceiverColumns = [
+    {
+      field: 'id',
+      hide: true,
+    },
+    {
+      field: 'Player',
+      headerName: 'Name',
+      width: 200,
+    },
+    {
+      field: 'Tm',
+      headerName: 'Team',
+    },
+    {
+      field: 'Yds',
+      headerName: 'Total Yards',
+      type: 'number',
+      width: 150,
+    },
+    {
+      field: 'Rec',
+      headerName: 'Receptions',
+      type: 'number',
+      width: 150,
+    },
+    {
+      field: 'Ctch%',
+      headerName: 'Catch Percentage',
+      width: 150,
+    },
+    {
+      field: 'Lng',
+      headerName: 'Longest Catch',
+      type: 'number',
+      width: 150,
+    },
+    {
+      field: 'Y/G',
+      headerName: 'Yards per Game',
+      type: 'number',
+      width: 150,
+    },
+  ];
+
+  // tight end
+  function formatTightEndRows(tightEnds) {
+    return tightEnds.map(te => {
+      return {
+        'id': te['_id'],
+        'Player': te['Player'],
+        'Tm': te['Tm'],
+        'Yds': te['Yds'],
+        'Rec': te['Rec'],
+        'Ctch%': te['Ctch%'],
+        'Lng': te['Lng'],
+        'Y/G': te['Y/G'],
+      };
+    });
+  }
+  const tightEndRowsProp = formatTightEndRows(props.players.tightEnds);
+  const tightEndColumns = [
+    {
+      field: 'id',
+      hide: true,
+    },
+    {
+      field: 'Player',
+      headerName: 'Name',
+      width: 200,
+    },
+    {
+      field: 'Tm',
+      headerName: 'Team',
+    },
+    {
+      field: 'Yds',
+      headerName: 'Total Yards',
+      type: 'number',
+      width: 150,
+    },
+    {
+      field: 'Rec',
+      headerName: 'Receptions',
+      type: 'number',
+      width: 150,
+    },
+    {
+      field: 'Ctch%',
+      headerName: 'Catch Percentage',
+      width: 150,
+    },
+    {
+      field: 'Lng',
+      headerName: 'Longest Catch',
+      type: 'number',
+      width: 150,
+    },
+    {
+      field: 'Y/G',
+      headerName: 'Yards per Game',
+      type: 'number',
+      width: 150,
+    },
+  ];
+
   if (!props.isLoggedIn) {
     return (
       <Redirect to="/" />
@@ -45,7 +277,7 @@ const Players = (props) => {
               Quarter Backs
             </Typography>
             <div style={{ height: 500, width: '100%', marginTop: '0.5rem', }}>
-              {/*<DataGrid rows={standingsRowsProp} columns={standingsColumns} />*/}
+              <DataGrid rows={quarterbackRowsProp} columns={quarterbackColumns} />
             </div>
           </Grid>
 
@@ -55,7 +287,7 @@ const Players = (props) => {
               Running Backs
             </Typography>
             <div style={{ height: 500, width: '100%', marginTop: '0.5rem', }}>
-              {/*<DataGrid rows={standingsRowsProp} columns={standingsColumns} />*/}
+              <DataGrid rows={runningBackRowsProp} columns={runningBackColumns} />
             </div>
           </Grid>
 
@@ -65,7 +297,7 @@ const Players = (props) => {
               Wide Receivers
             </Typography>
             <div style={{ height: 500, width: '100%', marginTop: '0.5rem', }}>
-              {/*<DataGrid rows={standingsRowsProp} columns={standingsColumns} />*/}
+              <DataGrid rows={wideReceiverRowsProp} columns={wideReceiverColumns} />
             </div>
           </Grid>
 
@@ -75,7 +307,7 @@ const Players = (props) => {
               Tight Ends
             </Typography>
             <div style={{ height: 500, width: '100%', marginTop: '0.5rem', }}>
-              {/*<DataGrid rows={standingsRowsProp} columns={standingsColumns} />*/}
+              <DataGrid rows={tightEndRowsProp} columns={tightEndColumns} />
             </div>
           </Grid>
         </Grid>
@@ -90,10 +322,22 @@ Players.defaultProps = {};
 
 function mapStateToProps(state) {
   const { isLoggedIn, user } = state.auth;
+  const {
+    quarterbacks,
+    runningBacks,
+    tightEnds,
+    wideReceivers,
+  } = state.players;
 
   return {
     isLoggedIn,
     user,
+    players: {
+      quarterbacks,
+      runningBacks,
+      tightEnds,
+      wideReceivers,
+    },
   };
 }
 
