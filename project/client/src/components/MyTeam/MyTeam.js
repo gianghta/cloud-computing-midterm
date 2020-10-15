@@ -62,8 +62,43 @@ const MyTeam = (props) => {
   }
 
   // DataGrid for Team View
-  const teamRowsProp = [];
+  const teamRowsProp = [
+    {
+      id: 0,
+      Position: 'Quarterback',
+      Player: props.players.quarterbacks.length > 0 ? props.players.quarterbacks.find(player => player._id === props.user.team.quarterback).Player : '',
+    },
+    {
+      id: 1,
+      Position: 'Running Back 1',
+      Player: props.players.runningBacks.length > 0 ? props.players.runningBacks.find(player => player._id === props.user.team.runningBack1).Player : '',
+    },
+    {
+      id: 2,
+      Position: 'Running Back 2',
+      Player: props.players.runningBacks.length > 0 ? props.players.runningBacks.find(player => player._id === props.user.team.runningBack2).Player : '',
+    },
+    {
+      id: 3,
+      Position: 'Wide Receiver 1',
+      Player: props.players.wideReceivers.length > 0 ? props.players.wideReceivers.find(player => player._id === props.user.team.wideReceiver1).Player : '',
+    },
+    {
+      id: 4,
+      Position: 'Wide Receiver 2',
+      Player: props.players.wideReceivers.length > 0 ? props.players.wideReceivers.find(player => player._id === props.user.team.wideReceiver2).Player : '',
+    },
+    {
+      id: 5,
+      Position: 'Tight End',
+      Player: props.players.tightEnds.length > 0 ? props.players.tightEnds.find(player => player._id === props.user.team.tightEnd).Player : '',
+    },
+  ];
   const teamColumns = [
+    {
+      field: 'id',
+      hide: true,
+    },
     {
       field: 'Position',
       headerName: 'Position',
@@ -77,16 +112,30 @@ const MyTeam = (props) => {
   ];
 
   // Edit Team
-  const [selectedQuarterback, setSelectedQuarterback] = useState('');
-  const [selectedRunningBack1, setSelectedRunningBack1] = useState('');
-  const [selectedRunningBack2, setSelectedRunningBack2] = useState('');
-  const [selectedWideReceiver1, setSelectedWideReceiver1] = useState('');
-  const [selectedWideReceiver2, setSelectedWideReceiver2] = useState('');
-  const [selectedTightEnd, setSelectedTightEnd] = useState('');
+  const [selectedQuarterback, setSelectedQuarterback] = useState(props.user.team.quarterback);
+  const [selectedRunningBack1, setSelectedRunningBack1] = useState(props.user.team.runningBack1);
+  const [selectedRunningBack2, setSelectedRunningBack2] = useState(props.user.team.runningBack2);
+  const [selectedWideReceiver1, setSelectedWideReceiver1] = useState(props.user.team.wideReceiver1);
+  const [selectedWideReceiver2, setSelectedWideReceiver2] = useState(props.user.team.wideReceiver2);
+  const [selectedTightEnd, setSelectedTightEnd] = useState(props.user.team.tightEnd);
 
-  function teamHasChanged() {
-    // TODO: implement
-    return true;
+  function canUpdateTeam() {
+    // if all selections are the same, return false
+    if (
+      props.user.team.quarterback === selectedQuarterback &&
+      props.user.team.runningBack1 === selectedRunningBack1 &&
+      props.user.team.runningBack2 === selectedRunningBack2 &&
+      props.user.team.wideReceiver1 === selectedWideReceiver1 &&
+      props.user.team.wideReceiver2 === selectedWideReceiver2 &&
+      props.user.team.tightEnd === selectedTightEnd
+    ) {
+      return false;
+    }
+
+    // if running backs or wide receivers are the same return false
+    // else, return true
+    return !(selectedRunningBack1 === selectedRunningBack2 ||
+      selectedWideReceiver1 === selectedWideReceiver2);
   }
 
   // make sure they're logged in
@@ -150,9 +199,9 @@ const MyTeam = (props) => {
                           value={selectedQuarterback}
                           onChange={e => setSelectedQuarterback(e.target.value)}
                         >
-                          <MenuItem value={'Player 1'}>Player 1</MenuItem>
-                          <MenuItem value={'Player 2'}>Player 2</MenuItem>
-                          <MenuItem value={'Player 3'}>Player 3</MenuItem>
+                          {props.players.quarterbacks.map((qb, i) => {
+                            return <MenuItem value={qb._id} key={i}>{qb.Player}</MenuItem>
+                          })}
                         </Select>
                       </FormControl>
                     </Grid>
@@ -169,9 +218,9 @@ const MyTeam = (props) => {
                           value={selectedRunningBack1}
                           onChange={e => setSelectedRunningBack1(e.target.value)}
                         >
-                          <MenuItem value={'Player 1'}>Player 1</MenuItem>
-                          <MenuItem value={'Player 2'}>Player 2</MenuItem>
-                          <MenuItem value={'Player 3'}>Player 3</MenuItem>
+                          {props.players.runningBacks.map((rb, i) => {
+                            return <MenuItem value={rb._id} key={i}>{rb.Player}</MenuItem>
+                          })}
                         </Select>
                       </FormControl>
                     </Grid>
@@ -188,9 +237,9 @@ const MyTeam = (props) => {
                           value={selectedRunningBack2}
                           onChange={e => setSelectedRunningBack2(e.target.value)}
                         >
-                          <MenuItem value={'Player 1'}>Player 1</MenuItem>
-                          <MenuItem value={'Player 2'}>Player 2</MenuItem>
-                          <MenuItem value={'Player 3'}>Player 3</MenuItem>
+                          {props.players.runningBacks.map((rb, i) => {
+                            return <MenuItem value={rb._id} key={i}>{rb.Player}</MenuItem>
+                          })}
                         </Select>
                       </FormControl>
                     </Grid>
@@ -207,9 +256,9 @@ const MyTeam = (props) => {
                           value={selectedWideReceiver1}
                           onChange={e => setSelectedWideReceiver1(e.target.value)}
                         >
-                          <MenuItem value={'Player 1'}>Player 1</MenuItem>
-                          <MenuItem value={'Player 2'}>Player 2</MenuItem>
-                          <MenuItem value={'Player 3'}>Player 3</MenuItem>
+                          {props.players.wideReceivers.map((wr, i) => {
+                            return <MenuItem value={wr._id} key={i}>{wr.Player}</MenuItem>
+                          })}
                         </Select>
                       </FormControl>
                     </Grid>
@@ -226,9 +275,9 @@ const MyTeam = (props) => {
                           value={selectedWideReceiver2}
                           onChange={e => setSelectedWideReceiver2(e.target.value)}
                         >
-                          <MenuItem value={'Player 1'}>Player 1</MenuItem>
-                          <MenuItem value={'Player 2'}>Player 2</MenuItem>
-                          <MenuItem value={'Player 3'}>Player 3</MenuItem>
+                          {props.players.wideReceivers.map((wr, i) => {
+                            return <MenuItem value={wr._id} key={i}>{wr.Player}</MenuItem>
+                          })}
                         </Select>
                       </FormControl>
                     </Grid>
@@ -245,9 +294,9 @@ const MyTeam = (props) => {
                           value={selectedTightEnd}
                           onChange={e => setSelectedTightEnd(e.target.value)}
                         >
-                          <MenuItem value={'Player 1'}>Player 1</MenuItem>
-                          <MenuItem value={'Player 2'}>Player 2</MenuItem>
-                          <MenuItem value={'Player 3'}>Player 3</MenuItem>
+                          {props.players.tightEnds.map((te, i) => {
+                            return <MenuItem value={te._id} key={i}>{te.Player}</MenuItem>
+                          })}
                         </Select>
                       </FormControl>
                     </Grid>
@@ -257,7 +306,7 @@ const MyTeam = (props) => {
                     <Grid item>
                       <Button
                         variant="contained"
-                        disabled={!teamHasChanged()}
+                        disabled={!canUpdateTeam()}
                       >
                         Reset Team
                       </Button>
@@ -269,7 +318,7 @@ const MyTeam = (props) => {
                         variant="contained"
                         color="primary"
                         className={classes.submit}
-                        disabled={!teamHasChanged()}
+                        disabled={!canUpdateTeam()}
                       >
                         Update Team
                       </Button>
@@ -291,10 +340,22 @@ MyTeam.defaultProps = {};
 
 function mapStateToProps(state) {
   const { isLoggedIn, user } = state.auth;
+  const {
+    quarterbacks,
+    runningBacks,
+    tightEnds,
+    wideReceivers,
+  } = state.players;
 
   return {
     isLoggedIn,
     user,
+    players: {
+      quarterbacks,
+      runningBacks,
+      tightEnds,
+      wideReceivers,
+    },
   };
 }
 
