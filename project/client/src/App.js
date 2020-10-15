@@ -44,7 +44,7 @@ class App extends Component {
     }
 
     // get quarterbacks
-    if (this.props.players.quarterbacks.length === 0) {
+    if (user && this.props.players.quarterbacks.length === 0) {
       this.props.dispatch(getQuarterbacks())
         .then(() => {
           console.log('App - got quarterbacks');
@@ -55,7 +55,7 @@ class App extends Component {
     }
 
     // get runningBacks
-    if (this.props.players.runningBacks.length === 0) {
+    if (user && this.props.players.runningBacks.length === 0) {
       this.props.dispatch(getRunningBacks())
         .then(() => {
           console.log('App - got runningBacks');
@@ -66,7 +66,7 @@ class App extends Component {
     }
 
     // get wideReceivers
-    if (this.props.players.wideReceivers.length === 0) {
+    if (user && this.props.players.wideReceivers.length === 0) {
       this.props.dispatch(getWideReceivers())
         .then(() => {
           console.log('App - got wideReceivers');
@@ -77,7 +77,7 @@ class App extends Component {
     }
 
     // get tightEnds
-    if (this.props.players.tightEnds.length === 0) {
+    if (user && this.props.players.tightEnds.length === 0) {
       this.props.dispatch(getTightEnds())
         .then(() => {
           console.log('App - got tightEnds');
