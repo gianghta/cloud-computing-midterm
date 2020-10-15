@@ -13,10 +13,12 @@ import Register from './components/Register/Register';
 import GlobalToolbar from "./components/GlobalToolbar/GlobalToolbar";
 import Players from './components/Players/Players';
 import MyTeam from './components/MyTeam/MyTeam';
+import {getQuarterbacks, getRunningBacks, getTightEnds, getWideReceivers} from "./actions/players";
 
 
 class App extends Component {
   constructor(props) {
+    console.log(props);
     super(props);
     this.logOut = this.logOut.bind(this);
 
@@ -39,6 +41,50 @@ class App extends Component {
         currentUser: user,
         showUserBoard: user.roles.includes('ROLE_USER'),
       });
+    }
+
+    // get quarterbacks
+    if (this.props.players.quarterbacks.length === 0) {
+      this.props.dispatch(getQuarterbacks())
+        .then(() => {
+          console.log('App - got quarterbacks');
+        })
+        .catch(() => {
+          console.log('App - error getting quarterbacks');
+        });
+    }
+
+    // get runningBacks
+    if (this.props.players.runningBacks.length === 0) {
+      this.props.dispatch(getRunningBacks())
+        .then(() => {
+          console.log('App - got runningBacks');
+        })
+        .catch(() => {
+          console.log('App - error getting runningBacks');
+        });
+    }
+
+    // get wideReceivers
+    if (this.props.players.wideReceivers.length === 0) {
+      this.props.dispatch(getWideReceivers())
+        .then(() => {
+          console.log('App - got wideReceivers');
+        })
+        .catch(() => {
+          console.log('App - error getting wideReceivers');
+        });
+    }
+
+    // get tightEnds
+    if (this.props.players.tightEnds.length === 0) {
+      this.props.dispatch(getTightEnds())
+        .then(() => {
+          console.log('App - got tightEnds');
+        })
+        .catch(() => {
+          console.log('App - error getting tightEnds');
+        });
     }
   }
 
@@ -70,9 +116,21 @@ class App extends Component {
 
 function mapStateToProps(state) {
   const { user } = state.auth;
+  const {
+    quarterbacks,
+    runningBacks,
+    tightEnds,
+    wideReceivers,
+  } = state.players;
 
   return {
     user,
+    players: {
+      quarterbacks,
+      runningBacks,
+      tightEnds,
+      wideReceivers,
+    },
   };
 }
 

@@ -24,7 +24,7 @@ export default function (state = initialState, action) {
     case GET_QUARTERBACKS:
       return {
         ...state,
-        quarterbacks: payload.quarterbacks,
+        quarterbacks: payload,
       };
     case GET_QUARTERBACKS_FAIL:
       return {
@@ -34,7 +34,7 @@ export default function (state = initialState, action) {
     case GET_RUNNING_BACKS:
       return {
         ...state,
-        runningBacks: payload.runningBacks,
+        runningBacks: payload,
       };
     case GET_RUNNING_BACKS_FAIL:
       return {
@@ -44,7 +44,7 @@ export default function (state = initialState, action) {
     case GET_WIDE_RECEIVERS:
       return {
         ...state,
-        wideReceivers: payload.wideReceivers,
+        wideReceivers: payload,
       };
     case GET_WIDE_RECEIVERS_FAIL:
       return {
@@ -54,7 +54,7 @@ export default function (state = initialState, action) {
     case GET_TIGHT_ENDS:
       return {
         ...state,
-        tightEnds: payload.tightEnds,
+        tightEnds: payload,
       };
     case GET_TIGHT_ENDS_FAIL:
       return {

@@ -17,6 +17,7 @@ export const getQuarterbacks = () => (dispatch) => {
     (response) => {
       dispatch({
         type: GET_QUARTERBACKS,
+        payload: response.data,
       });
 
       dispatch({
@@ -53,6 +54,7 @@ export const getRunningBacks = () => (dispatch) => {
     (response) => {
       dispatch({
         type: GET_RUNNING_BACKS,
+        payload: response.data,
       });
 
       dispatch({
@@ -89,6 +91,7 @@ export const getWideReceivers = () => (dispatch) => {
     (response) => {
       dispatch({
         type: GET_WIDE_RECEIVERS,
+        payload: response.data,
       });
 
       dispatch({
@@ -125,6 +128,7 @@ export const getTightEnds = () => (dispatch) => {
     (response) => {
       dispatch({
         type: GET_TIGHT_ENDS,
+        payload: response.data,
       });
 
       dispatch({

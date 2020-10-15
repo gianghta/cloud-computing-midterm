@@ -22,7 +22,20 @@ const Players = (props) => {
   const classes = useStyles();
 
   // quarterback
-  const quarterbackRowsProp = [];
+  function formatQuarterbackRows(quarterbacks) {
+    return quarterbacks.map(qb => {
+      return {
+        'id': qb['_id'],
+        'Player': qb['Player'],
+        'Tm': qb['Tm'],
+        'Yds': qb['Yds'],
+        'TD': qb['TD'],
+        'Int': qb['Int'],
+        'QBR': qb['QBR'],
+      };
+    });
+  }
+  const quarterbackRowsProp = formatQuarterbackRows(props.players.quarterbacks);
   const quarterbackColumns = [
     {
       field: 'id',
@@ -64,7 +77,20 @@ const Players = (props) => {
   ];
 
   // running back
-  const runningBackRowsProp = [];
+  function formatRunningBackRows(runningBacks) {
+    return runningBacks.map(rb => {
+      return {
+        'id': rb['_id'],
+        'Player': rb['Player'],
+        'Tm': rb['Tm'],
+        'Yds': rb['Yds'],
+        'Lng': rb['Lng'],
+        'Y/G': rb['Y/G'],
+        'Fmb': rb['Fmb'],
+      };
+    });
+  }
+  const runningBackRowsProp = formatRunningBackRows(props.players.runningBacks);
   const runningBackColumns = [
     {
       field: 'id',
@@ -106,7 +132,21 @@ const Players = (props) => {
   ];
 
   // wide receiver
-  const wideReceiverRowsProp = [];
+  function formatWideReceiverRows(wideReceivers) {
+    return wideReceivers.map(wr => {
+      return {
+        'id': wr['_id'],
+        'Player': wr['Player'],
+        'Tm': wr['Tm'],
+        'Yds': wr['Yds'],
+        'Rec': wr['Rec'],
+        'Ctch%': wr['Ctch%'],
+        'Lng': wr['Lng'],
+        'Y/G': wr['Y/G'],
+      };
+    });
+  }
+  const wideReceiverRowsProp = formatWideReceiverRows(props.players.wideReceivers);
   const wideReceiverColumns = [
     {
       field: 'id',
@@ -153,7 +193,21 @@ const Players = (props) => {
   ];
 
   // tight end
-  const tightEndRowsProp = [];
+  function formatTightEndRows(tightEnds) {
+    return tightEnds.map(te => {
+      return {
+        'id': te['_id'],
+        'Player': te['Player'],
+        'Tm': te['Tm'],
+        'Yds': te['Yds'],
+        'Rec': te['Rec'],
+        'Ctch%': te['Ctch%'],
+        'Lng': te['Lng'],
+        'Y/G': te['Y/G'],
+      };
+    });
+  }
+  const tightEndRowsProp = formatTightEndRows(props.players.tightEnds);
   const tightEndColumns = [
     {
       field: 'id',
@@ -268,10 +322,22 @@ Players.defaultProps = {};
 
 function mapStateToProps(state) {
   const { isLoggedIn, user } = state.auth;
+  const {
+    quarterbacks,
+    runningBacks,
+    tightEnds,
+    wideReceivers,
+  } = state.players;
 
   return {
     isLoggedIn,
     user,
+    players: {
+      quarterbacks,
+      runningBacks,
+      tightEnds,
+      wideReceivers,
+    },
   };
 }
 
