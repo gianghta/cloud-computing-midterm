@@ -36,7 +36,7 @@ const User = mongoose.model(
 			wideReceiver2: {
 				type: mongoose.Schema.Types.ObjectId,
 				ref: 'Wide-Receivers'
-			},
+			}
 		}
 	})
 );
