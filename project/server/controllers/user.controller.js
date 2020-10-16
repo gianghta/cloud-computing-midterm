@@ -53,6 +53,7 @@ exports.updateCurrentTeamFormation = async (req, res) => {
 	if (wideReceiver1) userInfo.team.wideReceiver1 = wideReceiver1;
 	if (wideReceiver2) userInfo.team.wideReceiver2 = wideReceiver2;
 
+	// Build each team member record for querying and calculating weekly scores
 	const quarterbackRecord = await Quarterbacks.findOne({ _id: quarterback });
 	const runningBack1Record = await RunningBacks.findOne({ _id: runningBack1 });
 	const runningBack2Record = await RunningBacks.findOne({ _id: runningBack2 });
@@ -65,6 +66,7 @@ exports.updateCurrentTeamFormation = async (req, res) => {
 		let scores = await Score.findOne({ user: userProfile._id });
 
 		for (let i = 1; i <= 17; i++) {
+			// Quarterback score
 			let winOrLose = 1;
 			let quarterbackResult = await WeeklyOutcome.findOne({
 				week: i,
@@ -90,8 +92,144 @@ exports.updateCurrentTeamFormation = async (req, res) => {
 				}
 			}
 
+			// Running Back 1 score
+			winOrLose = 1;
+			let runningBack1Result = await WeeklyOutcome.findOne({
+				week: i,
+				winnerTie: { $regex: runningBack1Record.Tm, $options: 'i' }
+			});
+			if (!runningBack1Result) {
+				runningBack1Result = await WeeklyOutcome.findOne({
+					week: i,
+					loserTie: { $regex: runningBack1Record.Tm, $options: 'i' }
+				});
+				winOrLose = 0;
+			}
+
+			if (runningBack1Result && winOrLose === 1) {
+				if (runningBack1Result.PtsW === runningBack1Result.PtsL) {
+					finalScore += 0.5;
+				} else if (runningBack1Result.PtsW > runningBack1Result.PtsL) {
+					finalScore += 1;
+				}
+			} else if (runningBack1Result && winOrLose === 0) {
+				if (runningBack1Result.PtsW === runningBack1Result.PtsL) {
+					finalScore += 0.5;
+				}
+			}
+
+			// Running back 2 score
+			winOrLose = 1;
+			let runningBack2Result = await WeeklyOutcome.findOne({
+				week: i,
+				winnerTie: { $regex: runningBack2Record.Tm, $options: 'i' }
+			});
+			if (!runningBack2Result) {
+				runningBack2Result = await WeeklyOutcome.findOne({
+					week: i,
+					loserTie: { $regex: runningBack2Record.Tm, $options: 'i' }
+				});
+				winOrLose = 0;
+			}
+
+			if (runningBack2Result && winOrLose === 1) {
+				if (runningBack2Result.PtsW === runningBack2Result.PtsL) {
+					finalScore += 0.5;
+				} else if (runningBack2Result.PtsW > runningBack2Result.PtsL) {
+					finalScore += 1;
+				}
+			} else if (runningBack2Result && winOrLose === 0) {
+				if (runningBack2Result.PtsW === runningBack2Result.PtsL) {
+					finalScore += 0.5;
+				}
+			}
+
+			// Tight End score
+			winOrLose = 1;
+			let tightEndResult = await WeeklyOutcome.findOne({
+				week: i,
+				winnerTie: { $regex: tightEndRecord.Tm, $options: 'i' }
+			});
+			if (!tightEndResult) {
+				tightEndResult = await WeeklyOutcome.findOne({
+					week: i,
+					loserTie: { $regex: tightEndRecord.Tm, $options: 'i' }
+				});
+				winOrLose = 0;
+			}
+
+			if (tightEndResult && winOrLose === 1) {
+				if (tightEndResult.PtsW === tightEndResult.PtsL) {
+					finalScore += 0.5;
+				} else if (tightEndResult.PtsW > tightEndResult.PtsL) {
+					finalScore += 1;
+				}
+			} else if (tightEndResult && winOrLose === 0) {
+				if (tightEndResult.PtsW === tightEndResult.PtsL) {
+					finalScore += 0.5;
+				}
+			}
+
+			// Wide receiver 1 score
+			winOrLose = 1;
+			let wideReceiver1Result = await WeeklyOutcome.findOne({
+				week: i,
+				winnerTie: { $regex: wideReceiver1Record.Tm, $options: 'i' }
+			});
+			if (!wideReceiver1Result) {
+				wideReceiver1Result = await WeeklyOutcome.findOne({
+					week: i,
+					loserTie: { $regex: wideReceiver1Record.Tm, $options: 'i' }
+				});
+				winOrLose = 0;
+			}
+
+			if (wideReceiver1Result && winOrLose === 1) {
+				if (wideReceiver1Result.PtsW === wideReceiver1Result.PtsL) {
+					finalScore += 0.5;
+				} else if (wideReceiver1Result.PtsW > wideReceiver1Result.PtsL) {
+					finalScore += 1;
+				}
+			} else if (wideReceiver1Result && winOrLose === 0) {
+				if (wideReceiver1Result.PtsW === wideReceiver1Result.PtsL) {
+					finalScore += 0.5;
+				}
+			}
+
+			// Tight End score
+			winOrLose = 1;
+			let wideReceiver2Result = await WeeklyOutcome.findOne({
+				week: i,
+				winnerTie: { $regex: wideReceiver2Record.Tm, $options: 'i' }
+			});
+			if (!wideReceiver2Result) {
+				wideReceiver2Result = await WeeklyOutcome.findOne({
+					week: i,
+					loserTie: { $regex: wideReceiver2Record.Tm, $options: 'i' }
+				});
+				winOrLose = 0;
+			}
+
+			if (wideReceiver2Result && winOrLose === 1) {
+				if (wideReceiver2Result.PtsW === wideReceiver2Result.PtsL) {
+					finalScore += 0.5;
+				} else if (wideReceiver2Result.PtsW > wideReceiver2Result.PtsL) {
+					finalScore += 1;
+				}
+			} else if (wideReceiver2Result && winOrLose === 0) {
+				if (wideReceiver2Result.PtsW === wideReceiver2Result.PtsL) {
+					finalScore += 0.5;
+				}
+			}
+
 			scores[`week-${i}`] = finalScore;
 		}
+
+		// Save new scores
+		scores.save(function(err, doc) {
+			if (err) return console.error(err);
+			console.log('Document inserted succussfully!');
+		});
 
 		if (userProfile) {
 			userProfile = await User.findOneAndUpdate({ username: req.params.username }, { $set: userInfo }, { new: true });
