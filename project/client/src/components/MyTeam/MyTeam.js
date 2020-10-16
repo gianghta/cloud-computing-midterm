@@ -12,6 +12,8 @@ import {DataGrid} from "@material-ui/data-grid";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import Button from "@material-ui/core/Button";
+import {updateUserTeam} from "../../actions/user";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -29,6 +31,10 @@ const useStyles = makeStyles((theme) => ({
     // border: '1px solid rgba(0, 0, 0, 0.12)',
     // borderRadius: '6px',
     paddingBottom: '1rem',
+  },
+  loadingContainer: {
+    marginTop: '5rem',
+    textAlign: 'center',
   },
 }));
 
@@ -54,6 +60,9 @@ function TabPanel(props) {
 
 const MyTeam = (props) => {
   const classes = useStyles();
+
+  // Loading on Update
+  const [loading, setLoading] = useState(false);
 
   // Tabs
   const [tabsValue, setTabsValue] = useState(0);
@@ -138,6 +147,26 @@ const MyTeam = (props) => {
       selectedWideReceiver1 === selectedWideReceiver2);
   }
 
+  function updateTeam(e) {
+    e.preventDefault();
+    setLoading(true);
+
+    const team = {
+      quarterback: selectedQuarterback,
+      runningBack1: selectedRunningBack1,
+      runningBack2: selectedRunningBack2,
+      tightEnd: selectedTightEnd,
+      wideReceiver1: selectedWideReceiver1,
+      wideReceiver2: selectedWideReceiver2,
+    };
+
+    props.dispatch(updateUserTeam(props.user.username, team))
+      .then(() => {
+        console.log('dispatch done');
+        setLoading(false);
+      });
+  }
+
   // make sure they're logged in
   if (!props.isLoggedIn) {
     return (
@@ -183,149 +212,166 @@ const MyTeam = (props) => {
 
             {/* Edit Team */}
             <TabPanel value={tabsValue} index={1}>
-              <Container maxWidth="md">
-                <form>
-                  <Grid container spacing={3} justify="center" className={classes.editContainer}>
-
-                    {/* Quarterback */}
-                    <Grid item xs={6}>
-                      <Typography variant="h6">
-                        Quarterback
-                      </Typography>
+              {loading && (
+                <Container maxWidth="md">
+                  <Grid container spacing={3} justify="center" className={classes.loadingContainer}>
+                    <Grid item xs={12}>
+                      <CircularProgress />
                     </Grid>
-                    <Grid item xs={6}>
-                      <FormControl className={classes.formControl}>
-                        <Select
-                          value={selectedQuarterback}
-                          onChange={e => setSelectedQuarterback(e.target.value)}
-                        >
-                          {props.players.quarterbacks.map((qb, i) => {
-                            return <MenuItem value={qb._id} key={i}>{qb.Player}</MenuItem>
-                          })}
-                        </Select>
-                      </FormControl>
-                    </Grid>
-
-                    {/* Running Back 1 */}
-                    <Grid item xs={6}>
-                      <Typography variant="h6">
-                        Running Back 1
-                      </Typography>
-                    </Grid>
-                    <Grid item xs={6}>
-                      <FormControl className={classes.formControl}>
-                        <Select
-                          value={selectedRunningBack1}
-                          onChange={e => setSelectedRunningBack1(e.target.value)}
-                        >
-                          {props.players.runningBacks.map((rb, i) => {
-                            return <MenuItem value={rb._id} key={i}>{rb.Player}</MenuItem>
-                          })}
-                        </Select>
-                      </FormControl>
-                    </Grid>
-
-                    {/* Running Back 2 */}
-                    <Grid item xs={6}>
-                      <Typography variant="h6">
-                        Running Back 2
-                      </Typography>
-                    </Grid>
-                    <Grid item xs={6}>
-                      <FormControl className={classes.formControl}>
-                        <Select
-                          value={selectedRunningBack2}
-                          onChange={e => setSelectedRunningBack2(e.target.value)}
-                        >
-                          {props.players.runningBacks.map((rb, i) => {
-                            return <MenuItem value={rb._id} key={i}>{rb.Player}</MenuItem>
-                          })}
-                        </Select>
-                      </FormControl>
-                    </Grid>
-
-                    {/* Wide Receiver 1 */}
-                    <Grid item xs={6}>
-                      <Typography variant="h6">
-                        Wide Receiver 1
-                      </Typography>
-                    </Grid>
-                    <Grid item xs={6}>
-                      <FormControl className={classes.formControl}>
-                        <Select
-                          value={selectedWideReceiver1}
-                          onChange={e => setSelectedWideReceiver1(e.target.value)}
-                        >
-                          {props.players.wideReceivers.map((wr, i) => {
-                            return <MenuItem value={wr._id} key={i}>{wr.Player}</MenuItem>
-                          })}
-                        </Select>
-                      </FormControl>
-                    </Grid>
-
-                    {/* Wide Receiver 2 */}
-                    <Grid item xs={6}>
-                      <Typography variant="h6">
-                        Wide Receiver 2
-                      </Typography>
-                    </Grid>
-                    <Grid item xs={6}>
-                      <FormControl className={classes.formControl}>
-                        <Select
-                          value={selectedWideReceiver2}
-                          onChange={e => setSelectedWideReceiver2(e.target.value)}
-                        >
-                          {props.players.wideReceivers.map((wr, i) => {
-                            return <MenuItem value={wr._id} key={i}>{wr.Player}</MenuItem>
-                          })}
-                        </Select>
-                      </FormControl>
-                    </Grid>
-
-                    {/* Tight End */}
-                    <Grid item xs={6}>
-                      <Typography variant="h6">
-                        Tight End
-                      </Typography>
-                    </Grid>
-                    <Grid item xs={6}>
-                      <FormControl className={classes.formControl}>
-                        <Select
-                          value={selectedTightEnd}
-                          onChange={e => setSelectedTightEnd(e.target.value)}
-                        >
-                          {props.players.tightEnds.map((te, i) => {
-                            return <MenuItem value={te._id} key={i}>{te.Player}</MenuItem>
-                          })}
-                        </Select>
-                      </FormControl>
-                    </Grid>
-
-                  </Grid>
-                  <Grid container spacing={3} justify="flex-end">
-                    <Grid item>
-                      <Button
-                        variant="contained"
-                        disabled={!canUpdateTeam()}
-                      >
-                        Reset Team
-                      </Button>
-                    </Grid>
-                    <Grid item>
-                      <Button
-                        type="submit"
-                        fullWidth
-                        variant="contained"
-                        color="primary"
-                        className={classes.submit}
-                        disabled={!canUpdateTeam()}
-                      >
-                        Update Team
-                      </Button>
+                    <Grid item xs={12}>
+                      <Typography variant="caption">Creating your new team!</Typography>
                     </Grid>
                   </Grid>
-                </form>
-              </Container>
+                </Container>
+              )}
+
+              {!loading && (
+                <Container maxWidth="md">
+                  <form>
+                    <Grid container spacing={3} justify="center" className={classes.editContainer}>
+
+                      {/* Quarterback */}
+                      <Grid item xs={6}>
+                        <Typography variant="h6">
+                          Quarterback
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={6}>
+                        <FormControl className={classes.formControl}>
+                          <Select
+                            value={selectedQuarterback}
+                            onChange={e => setSelectedQuarterback(e.target.value)}
+                          >
+                            {props.players.quarterbacks.map((qb, i) => {
+                              return <MenuItem value={qb._id} key={i}>{qb.Player}</MenuItem>
+                            })}
+                          </Select>
+                        </FormControl>
+                      </Grid>
+
+                      {/* Running Back 1 */}
+                      <Grid item xs={6}>
+                        <Typography variant="h6">
+                          Running Back 1
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={6}>
+                        <FormControl className={classes.formControl}>
+                          <Select
+                            value={selectedRunningBack1}
+                            onChange={e => setSelectedRunningBack1(e.target.value)}
+                          >
+                            {props.players.runningBacks.map((rb, i) => {
+                              return <MenuItem value={rb._id} key={i}>{rb.Player}</MenuItem>
+                            })}
+                          </Select>
+                        </FormControl>
+                      </Grid>
+
+                      {/* Running Back 2 */}
+                      <Grid item xs={6}>
+                        <Typography variant="h6">
+                          Running Back 2
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={6}>
+                        <FormControl className={classes.formControl}>
+                          <Select
+                            value={selectedRunningBack2}
+                            onChange={e => setSelectedRunningBack2(e.target.value)}
+                          >
+                            {props.players.runningBacks.map((rb, i) => {
+                              return <MenuItem value={rb._id} key={i}>{rb.Player}</MenuItem>
+                            })}
+                          </Select>
+                        </FormControl>
+                      </Grid>
+
+                      {/* Wide Receiver 1 */}
+                      <Grid item xs={6}>
+                        <Typography variant="h6">
+                          Wide Receiver 1
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={6}>
+                        <FormControl className={classes.formControl}>
+                          <Select
+                            value={selectedWideReceiver1}
+                            onChange={e => setSelectedWideReceiver1(e.target.value)}
+                          >
+                            {props.players.wideReceivers.map((wr, i) => {
+                              return <MenuItem value={wr._id} key={i}>{wr.Player}</MenuItem>
+                            })}
+                          </Select>
+                        </FormControl>
+                      </Grid>
+
+                      {/* Wide Receiver 2 */}
+                      <Grid item xs={6}>
+                        <Typography variant="h6">
+                          Wide Receiver 2
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={6}>
+                        <FormControl className={classes.formControl}>
+                          <Select
+                            value={selectedWideReceiver2}
+                            onChange={e => setSelectedWideReceiver2(e.target.value)}
+                          >
+                            {props.players.wideReceivers.map((wr, i) => {
+                              return <MenuItem value={wr._id} key={i}>{wr.Player}</MenuItem>
+                            })}
+                          </Select>
+                        </FormControl>
+                      </Grid>
+
+                      {/* Tight End */}
+                      <Grid item xs={6}>
+                        <Typography variant="h6">
+                          Tight End
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={6}>
+                        <FormControl className={classes.formControl}>
+                          <Select
+                            value={selectedTightEnd}
+                            onChange={e => setSelectedTightEnd(e.target.value)}
+                          >
+                            {props.players.tightEnds.map((te, i) => {
+                              return <MenuItem value={te._id} key={i}>{te.Player}</MenuItem>
+                            })}
+                          </Select>
+                        </FormControl>
+                      </Grid>
+
+                    </Grid>
+                    <Grid container spacing={3} justify="flex-end">
+                      <Grid item>
+                        <Button
+                          variant="contained"
+                          disabled={!canUpdateTeam()}
+                        >
+                          Reset Team
+                        </Button>
+                      </Grid>
+                      <Grid item>
+                        <Button
+                          type="submit"
+                          fullWidth
+                          variant="contained"
+                          color="primary"
+                          className={classes.submit}
+                          disabled={!canUpdateTeam()}
+                          onClick={(e) => updateTeam(e)}
+                        >
+                          Update Team
+                        </Button>
+                      </Grid>
+                    </Grid>
+                  </form>
+                </Container>
+              )}
+
             </TabPanel>
           </Grid>
         </Grid>

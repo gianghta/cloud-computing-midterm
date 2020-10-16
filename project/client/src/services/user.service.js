@@ -21,7 +21,16 @@ class UserService {
   // }
 
   updateCurrentUserTeam(username, team) {
-    // TODO: fill in once endpoint complete
+    return axios.put(API_URL + `update-team/${username}`, team, { headers: authHeader() })
+      .then((response) => {
+        let localStorageUser = JSON.parse(localStorage.getItem('user'));
+        localStorageUser.team = response.data.team;
+        if (localStorageUser.accessToken) {
+          localStorage.setItem('user', JSON.stringify(localStorageUser));
+        }
+
+        return response.data;
+      });
   }
 
   getAllUsers() {

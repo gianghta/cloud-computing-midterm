@@ -7,17 +7,12 @@ import {
 import UserService from '../services/user.service';
 
 
-// TODO: polish up both of these functions, such as payloads, data, etc.
-
-
 export const updateUserTeam = (username, team) => (dispatch) => {
   return UserService.updateCurrentUserTeam(username, team).then(
     (data) => {
-      console.log(data);
-      // TODO: see what data is being sent
       dispatch({
         type: UPDATE_USER_TEAM_SUCCESS,
-        payload: data,
+        payload: data.team,
       });
 
       return Promise.resolve();

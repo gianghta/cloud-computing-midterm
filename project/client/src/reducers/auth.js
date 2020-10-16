@@ -46,15 +46,13 @@ export default function (state = initialState, action) {
         isLoggedIn: false,
         user: null,
       };
-    // TODO: update the user once the endpoints are complete
     case UPDATE_USER_TEAM_SUCCESS:
       return {
         ...state,
         user: {
           ...state.user,
           team: {
-            // TODO: this payload is not accurate, just a placeholder
-            payload,
+            ...payload,
           }
         }
       };
