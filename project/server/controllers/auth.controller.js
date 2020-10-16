@@ -2,7 +2,7 @@ const config = require('../config/auth.config');
 const db = require('../models');
 const User = db.user;
 const Role = db.role;
-const Scores = db.Scores;
+const Scores = db.scores;
 
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
@@ -15,9 +15,6 @@ exports.signup = (req, res) => {
 		username: req.body.username,
 		email: req.body.email,
 		password: bcrypt.hashSync(req.body.password, 8),
-		scores: new Scores({
-			user: user._id
-		}),
 		team: {
 			quarterback: ObjectId('5f80a68660db5488b0d03a76'),
 			runningBack1: ObjectId('5f80bf871053ba3e50c6ea22'),
@@ -27,6 +24,8 @@ exports.signup = (req, res) => {
 			wideReceiver2: ObjectId('5f80a7b25dd001f001785b98')
 		}
 	});
+
+
 
 	user.save((err, user) => {
 		if (err) {
@@ -46,13 +45,25 @@ exports.signup = (req, res) => {
 					}
 
 					user.roles = roles.map((role) => role._id);
-					user.save((err) => {
+					user.save((err, user) => {
 						if (err) {
 							res.status(500).send({ message: err });
 							return;
 						}
 
-						res.send({ message: 'User was registered successfully!' });
+						const scores = new Scores({
+							user_id: user._id,
+						});
+						scores.save((err) => {
+							if (err) {
+								res.status(500).send({ message: err });
+								return;
+							}
+
+							res.send({ message: 'User was registered successfully!' });
+						});
+
+						// res.send({ message: 'User was registered successfully!' });
 					});
 				}
 			);
@@ -64,13 +75,25 @@ exports.signup = (req, res) => {
 				}
 
 				user.roles = [ role._id ];
-				user.save((err) => {
+				user.save((err, user) => {
 					if (err) {
 						res.status(500).send({ message: err });
 						return;
 					}
 
-					res.send({ message: 'User was registered successfully!' });
+					const scores = new Scores({
+						user_id: user._id,
+					});
+					scores.save((err) => {
+						if (err) {
+							res.status(500).send({ message: err });
+							return;
+						}
+
+						res.send({ message: 'User was registered successfully!' });
+					});
+
+					// res.send({ message: 'User was registered successfully!' });
 				});
 			});
 		}

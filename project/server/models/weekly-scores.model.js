@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const Scores = mongoose.model(
 	'Weekly-Scores',
 	new mongoose.Schema({
-		user: {
+		user_id: {
 			type: mongoose.Schema.Types.ObjectId,
 			ref: 'User'
 		},
@@ -77,3 +77,5 @@ const Scores = mongoose.model(
 		}
 	})
 );
+
+module.exports = Scores;

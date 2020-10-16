@@ -12,10 +12,6 @@ const User = mongoose.model(
 				ref: 'Role'
 			}
 		],
-		scores: {
-			type: mongoose.Schema.Types.ObjectId,
-			ref: 'Weekly-Scores'
-		},
 		team: {
 			quarterback: {
 				type: mongoose.Schema.Types.ObjectId,

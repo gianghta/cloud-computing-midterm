@@ -1,5 +1,5 @@
-const { user } = require('../models');
 const db = require('../models');
+const { ObjectId } = require('mongodb');
 const Quarterbacks = db.quarterbacks;
 const WideReceivers = db.wideReceivers;
 const TightEnds = db.tightEnds;
@@ -7,6 +7,7 @@ const RunningBacks = db.runningBacks;
 const User = db.user;
 const WeeklyOutcome = db.weeklyOutcome;
 const Score = db.scores;
+
 
 exports.allAccess = (req, res) => {
 	res.status(200).send('Public Content.');
@@ -63,19 +64,20 @@ exports.updateCurrentTeamFormation = async (req, res) => {
 
 	try {
 		let userProfile = await User.findOne({ username: req.params.username });
-		let scores = await Score.findOne({ user: userProfile._id });
+		let newScores = {};
 
 		for (let i = 1; i <= 17; i++) {
 			// Quarterback score
 			let winOrLose = 1;
 			let quarterbackResult = await WeeklyOutcome.findOne({
-				week: i,
-				winnerTie: { $regex: quarterbackRecord.Tm, $options: 'i' }
+				Week: `${i}`,
+				'Winner/tie': { $regex: quarterbackRecord.Tm, $options: 'i' }
 			});
+			// console.log(quarterbackResult);
 			if (!quarterbackResult) {
 				quarterbackResult = await WeeklyOutcome.findOne({
-					week: i,
-					loserTie: { $regex: quarterbackRecord.Tm, $options: 'i' }
+					Week: i,
+					'Loser/tie': { $regex: quarterbackRecord.Tm, $options: 'i' }
 				});
 				winOrLose = 0;
 			}
@@ -95,13 +97,13 @@ exports.updateCurrentTeamFormation = async (req, res) => {
 			// Running Back 1 score
 			winOrLose = 1;
 			let runningBack1Result = await WeeklyOutcome.findOne({
-				week: i,
-				winnerTie: { $regex: runningBack1Record.Tm, $options: 'i' }
+				Week: i,
+				'Winner/tie': { $regex: runningBack1Record.Tm, $options: 'i' }
 			});
 			if (!runningBack1Result) {
 				runningBack1Result = await WeeklyOutcome.findOne({
-					week: i,
-					loserTie: { $regex: runningBack1Record.Tm, $options: 'i' }
+					Week: i,
+					'Loser/tie': { $regex: runningBack1Record.Tm, $options: 'i' }
 				});
 				winOrLose = 0;
 			}
@@ -121,13 +123,13 @@ exports.updateCurrentTeamFormation = async (req, res) => {
 			// Running back 2 score
 			winOrLose = 1;
 			let runningBack2Result = await WeeklyOutcome.findOne({
-				week: i,
-				winnerTie: { $regex: runningBack2Record.Tm, $options: 'i' }
+				Week: i,
+				'Winner/tie': { $regex: runningBack2Record.Tm, $options: 'i' }
 			});
 			if (!runningBack2Result) {
 				runningBack2Result = await WeeklyOutcome.findOne({
-					week: i,
-					loserTie: { $regex: runningBack2Record.Tm, $options: 'i' }
+					Week: i,
+					'Loser/tie': { $regex: runningBack2Record.Tm, $options: 'i' }
 				});
 				winOrLose = 0;
 			}
@@ -147,13 +149,13 @@ exports.updateCurrentTeamFormation = async (req, res) => {
 			// Tight End score
 			winOrLose = 1;
 			let tightEndResult = await WeeklyOutcome.findOne({
-				week: i,
-				winnerTie: { $regex: tightEndRecord.Tm, $options: 'i' }
+				Week: i,
+				'Winner/tie': { $regex: tightEndRecord.Tm, $options: 'i' }
 			});
 			if (!tightEndResult) {
 				tightEndResult = await WeeklyOutcome.findOne({
-					week: i,
-					loserTie: { $regex: tightEndRecord.Tm, $options: 'i' }
+					Week: i,
+					'Loser/tie': { $regex: tightEndRecord.Tm, $options: 'i' }
 				});
 				winOrLose = 0;
 			}
@@ -173,13 +175,13 @@ exports.updateCurrentTeamFormation = async (req, res) => {
 			// Wide receiver 1 score
 			winOrLose = 1;
 			let wideReceiver1Result = await WeeklyOutcome.findOne({
-				week: i,
-				winnerTie: { $regex: wideReceiver1Record.Tm, $options: 'i' }
+				Week: i,
+				'Winner/tie': { $regex: wideReceiver1Record.Tm, $options: 'i' }
 			});
 			if (!wideReceiver1Result) {
 				wideReceiver1Result = await WeeklyOutcome.findOne({
-					week: i,
-					loserTie: { $regex: wideReceiver1Record.Tm, $options: 'i' }
+					Week: i,
+					'Loser/tie': { $regex: wideReceiver1Record.Tm, $options: 'i' }
 				});
 				winOrLose = 0;
 			}
@@ -199,13 +201,13 @@ exports.updateCurrentTeamFormation = async (req, res) => {
 			// Tight End score
 			winOrLose = 1;
 			let wideReceiver2Result = await WeeklyOutcome.findOne({
-				week: i,
-				winnerTie: { $regex: wideReceiver2Record.Tm, $options: 'i' }
+				Week: i,
+				'Winner/tie': { $regex: wideReceiver2Record.Tm, $options: 'i' }
 			});
 			if (!wideReceiver2Result) {
 				wideReceiver2Result = await WeeklyOutcome.findOne({
-					week: i,
-					loserTie: { $regex: wideReceiver2Record.Tm, $options: 'i' }
+					Week: i,
+					'Loser/tie': { $regex: wideReceiver2Record.Tm, $options: 'i' }
 				});
 				winOrLose = 0;
 			}
@@ -222,13 +224,15 @@ exports.updateCurrentTeamFormation = async (req, res) => {
 				}
 			}
 
-			scores[`week-${i}`] = finalScore;
+			newScores[`week-${i}`] = finalScore;
+			finalScore = 0;
 		}
 
 		// Save new scores
-		scores.save(function(err, doc) {
-			if (err) return console.error(err);
-			console.log('Document inserted succussfully!');
+		await Score.findOneAndUpdate({ user_id: userProfile._id }, newScores, { new: true }, function(err, result) {
+			if (err) {
+				return console.error(err);
+			}
 		});
 
 		if (userProfile) {
