@@ -12,6 +12,7 @@ db.runningBacks = require('./running-backs.model');
 db.tightEnds = require('./tight-ends.model');
 db.wideReceivers = require('./wide-receivers.model');
 db.weeklyOutcome = require('./weekly-outcome.model');
+db.scores = require('./weekly-scores.model');
 
 db.ROLES = [ 'guest', 'user' ];
 
