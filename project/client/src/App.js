@@ -5,6 +5,8 @@ import { connect } from 'react-redux';
 import {clearMessage} from "./actions/message";
 import {logout} from "./actions/auth";
 import { history } from './helpers/history';
+import {getQuarterbacks, getRunningBacks, getTightEnds, getWideReceivers} from "./actions/players";
+import UserService from './services/user.service';
 
 // Components
 import Home from "./components/Home/Home";
@@ -13,7 +15,7 @@ import Register from './components/Register/Register';
 import GlobalToolbar from "./components/GlobalToolbar/GlobalToolbar";
 import Players from './components/Players/Players';
 import MyTeam from './components/MyTeam/MyTeam';
-import {getQuarterbacks, getRunningBacks, getTightEnds, getWideReceivers} from "./actions/players";
+
 
 
 class App extends Component {
@@ -23,8 +25,7 @@ class App extends Component {
     this.logOut = this.logOut.bind(this);
 
     this.state = {
-      showUserBoard: false,
-      currentUser: undefined,
+      loadingTeams: false,
     };
 
     // clears the message every time the location changes
@@ -35,13 +36,6 @@ class App extends Component {
 
   componentDidMount() {
     const user = this.props.user;
-
-    if (user) {
-      this.setState({
-        currentUser: user,
-        showUserBoard: user.roles.includes('ROLE_USER'),
-      });
-    }
 
     // get quarterbacks
     if (user && this.props.players.quarterbacks.length === 0) {

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 // import PropTypes from 'prop-types';
 import './Home.css';
 import { connect } from 'react-redux';
@@ -6,19 +6,35 @@ import {Container, Grid, Typography} from "@material-ui/core";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import {DataGrid} from "@material-ui/data-grid";
+import UserService from '../../services/user.service';
 
 
-const useStyles = makeStyles((theme) => ({
-  paper: {
-    marginTop: theme.spacing(6),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-}));
+const useStyles = makeStyles((theme) => {
+  console.log('use styles called');
+
+  return ({
+    paper: {
+      marginTop: theme.spacing(6),
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+    },
+  });
+});
+
+function getAllUsers() {
+  UserService.getAllUsers().then((response) => {
+    console.log(response);
+  });
+}
 
 const Home = (props) => {
   const classes = useStyles();
+
+  useEffect(() => {
+    getAllUsers();
+  });
+  // getAllUsers();
 
   const standingsRowsProp = [
     {
@@ -43,7 +59,6 @@ const Home = (props) => {
       'wk17_score': 10,
     },
   ];
-
   const standingsColumns = [
     {
       field: 'id',
@@ -139,6 +154,7 @@ const Home = (props) => {
       type: 'number',
     },
   ];
+
 
   return (
     <div className="Home" data-testid="Home">
