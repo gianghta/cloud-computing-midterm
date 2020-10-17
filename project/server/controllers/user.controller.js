@@ -8,7 +8,6 @@ const User = db.user;
 const WeeklyOutcome = db.weeklyOutcome;
 const Score = db.scores;
 
-
 exports.allAccess = (req, res) => {
 	res.status(200).send('Public Content.');
 };
@@ -240,6 +239,21 @@ exports.updateCurrentTeamFormation = async (req, res) => {
 
 			return res.json(userProfile);
 		}
+	} catch (error) {
+		console.log(error.message);
+		res.status(500).send('Server Error');
+	}
+};
+
+exports.returnAllAccountsScores = async (req, res) => {
+	try {
+		const allAccountsScores = await Score.find().populate('user_id', [ 'username', 'email' ]);
+
+		if (!allAccountsScores) {
+			return res.status(400).json({ msg: 'Cannot find account scores' });
+		}
+
+		res.json(allAccountsScores);
 	} catch (error) {
 		console.log(error.message);
 		res.status(500).send('Server Error');
