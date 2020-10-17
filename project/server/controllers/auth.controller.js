@@ -15,17 +15,7 @@ exports.signup = (req, res) => {
 		username: req.body.username,
 		email: req.body.email,
 		password: bcrypt.hashSync(req.body.password, 8),
-		team: {
-			quarterback: ObjectId('5f80a68660db5488b0d03a76'),
-			runningBack1: ObjectId('5f80bf871053ba3e50c6ea22'),
-			runningBack2: ObjectId('5f80bf871053ba3e50c6ea23'),
-			tightEnd: ObjectId('5f80a781847a2e2180daa9d7'),
-			wideReceiver1: ObjectId('5f80a7b25dd001f001785b93'),
-			wideReceiver2: ObjectId('5f80a7b25dd001f001785b98')
-		}
 	});
-
-
 
 	user.save((err, user) => {
 		if (err) {
@@ -60,10 +50,11 @@ exports.signup = (req, res) => {
 								return;
 							}
 
-							res.send({ message: 'User was registered successfully!' });
+							res.send({
+								message: 'User was registered successfully!',
+								user: user,
+							});
 						});
-
-						// res.send({ message: 'User was registered successfully!' });
 					});
 				}
 			);
@@ -90,10 +81,11 @@ exports.signup = (req, res) => {
 							return;
 						}
 
-						res.send({ message: 'User was registered successfully!' });
+						res.send({
+							message: 'User was registered successfully!',
+							user: user,
+						});
 					});
-
-					// res.send({ message: 'User was registered successfully!' });
 				});
 			});
 		}

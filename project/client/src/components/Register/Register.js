@@ -36,6 +36,10 @@ const useStyles = makeStyles((theme) => ({
   alert: {
     marginBottom: theme.spacing(2),
   },
+  loadingContainer: {
+    marginTop: '5rem',
+    textAlign: 'center',
+  },
 }));
 
 const Register = (props) => {
@@ -80,7 +84,8 @@ const Register = (props) => {
             Sign Up
           </Typography>
           <form className={classes.form} noValidate onSubmit={handleSubmit}>
-            {!successful && (
+
+            {(!successful) && (
               <div>
                 <TextField
                   variant="outlined"
@@ -129,7 +134,7 @@ const Register = (props) => {
               </div>
             )}
 
-            {props.message && (
+            {(props.message) && (
               <div className={classes.alert}>
                 <Alert severity={successful ? 'success' : 'error'}>
                   {props.message}

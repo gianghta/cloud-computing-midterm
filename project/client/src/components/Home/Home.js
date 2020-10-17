@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 // import PropTypes from 'prop-types';
 import './Home.css';
 import { connect } from 'react-redux';
@@ -10,8 +10,6 @@ import UserService from '../../services/user.service';
 
 
 const useStyles = makeStyles((theme) => {
-  console.log('use styles called');
-
   return ({
     paper: {
       marginTop: theme.spacing(6),
@@ -22,50 +20,53 @@ const useStyles = makeStyles((theme) => {
   });
 });
 
-function getAllUsers() {
-  UserService.getAllUsers().then((response) => {
-    console.log(response);
-  });
-}
-
 const Home = (props) => {
   const classes = useStyles();
 
-  useEffect(() => {
-    getAllUsers();
-  });
-  // getAllUsers();
+  const [standingsRowsProp, setStandingsRowsProp] = useState([]);
 
-  const standingsRowsProp = [
-    {
-      id: '1',
-      user: 'Test',
-      'wk1_score': 5,
-      'wk2_score': 6,
-      'wk3_score': 5,
-      'wk4_score': 3,
-      'wk5_score': 3,
-      'wk6_score': 7,
-      'wk7_score': 2,
-      'wk8_score': 5,
-      'wk9_score': 1,
-      'wk10_score': 5,
-      'wk11_score': 5,
-      'wk12_score': 8,
-      'wk13_score': 3,
-      'wk14_score': 3,
-      'wk15_score': 6,
-      'wk16_score': 1,
-      'wk17_score': 10,
-    },
-  ];
+  useEffect(() => {
+    async function getAllUserScores() {
+      const rows = await UserService.getAllUserScores().then((response) => {
+        return response.data.map(guy => {
+          return {
+            id: guy['user_id']['_id'],
+            username: guy['user_id']['username'],
+            wk1_score: guy['week-1'],
+            wk2_score: guy['week-2'],
+            wk3_score: guy['week-3'],
+            wk4_score: guy['week-4'],
+            wk5_score: guy['week-5'],
+            wk6_score: guy['week-6'],
+            wk7_score: guy['week-7'],
+            wk8_score: guy['week-8'],
+            wk9_score: guy['week-9'],
+            wk10_score: guy['week-10'],
+            wk11_score: guy['week-11'],
+            wk12_score: guy['week-12'],
+            wk13_score: guy['week-13'],
+            wk14_score: guy['week-14'],
+            wk15_score: guy['week-15'],
+            wk16_score: guy['week-16'],
+            wk17_score: guy['week-17'],
+          };
+        });
+      });
+
+      return rows;
+    }
+    getAllUserScores().then(rows => {
+      setStandingsRowsProp(rows);
+    });
+  }, []);
+
   const standingsColumns = [
     {
       field: 'id',
       hide: true,
     },
     {
-      field: 'user',
+      field: 'username',
       headerName: 'User',
     },
     {

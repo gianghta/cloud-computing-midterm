@@ -15,7 +15,7 @@ module.exports = function(app) {
 
 	app.get('/api/test/all-user', controller.allUsers);
 
-	app.put('/api/test/update-team/:username', [ authJwt.verifyToken ], controller.updateCurrentTeamFormation);
+	app.put('/api/test/update-team/:username', controller.updateCurrentTeamFormation);
 
 	app.get('/api/test/return-all-scores', controller.returnAllAccountsScores);
 };

@@ -12,14 +12,6 @@ class UserService {
     return axios.get(API_URL + 'user', { headers: authHeader() });
   }
 
-  // getCurrentUserTeam(username) {
-  //   return axios.get(API_URL + `current-user/${username}`, { headers: authHeader() })
-  //     .then((response) => {
-  //       // TODO: not sure is this will get the actual team data yet, need to test
-  //       return response.data.team;
-  //     });
-  // }
-
   updateCurrentUserTeam(username, team) {
     return axios.put(API_URL + `update-team/${username}`, team, { headers: authHeader() })
       .then((response) => {
@@ -35,6 +27,10 @@ class UserService {
 
   getAllUsers() {
     return axios.get(API_URL + 'all-user', { headers: authHeader() });
+  }
+
+  getAllUserScores() {
+    return axios.get(API_URL + 'return-all-scores', { headers: authHeader() });
   }
 }
 
