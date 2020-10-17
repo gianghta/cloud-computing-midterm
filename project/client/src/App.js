@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import {clearMessage} from "./actions/message";
 import {logout} from "./actions/auth";
 import { history } from './helpers/history';
+import {getQuarterbacks, getRunningBacks, getTightEnds, getWideReceivers} from "./actions/players";
 
 // Components
 import Home from "./components/Home/Home";
@@ -13,18 +14,16 @@ import Register from './components/Register/Register';
 import GlobalToolbar from "./components/GlobalToolbar/GlobalToolbar";
 import Players from './components/Players/Players';
 import MyTeam from './components/MyTeam/MyTeam';
-import {getQuarterbacks, getRunningBacks, getTightEnds, getWideReceivers} from "./actions/players";
+
 
 
 class App extends Component {
   constructor(props) {
-    console.log(props);
     super(props);
     this.logOut = this.logOut.bind(this);
 
     this.state = {
-      showUserBoard: false,
-      currentUser: undefined,
+      loadingTeams: false,
     };
 
     // clears the message every time the location changes
@@ -36,18 +35,11 @@ class App extends Component {
   componentDidMount() {
     const user = this.props.user;
 
-    if (user) {
-      this.setState({
-        currentUser: user,
-        showUserBoard: user.roles.includes('ROLE_USER'),
-      });
-    }
-
     // get quarterbacks
     if (user && this.props.players.quarterbacks.length === 0) {
       this.props.dispatch(getQuarterbacks())
         .then(() => {
-          console.log('App - got quarterbacks');
+          // console.log('App - got quarterbacks');
         })
         .catch(() => {
           console.log('App - error getting quarterbacks');
@@ -58,7 +50,7 @@ class App extends Component {
     if (user && this.props.players.runningBacks.length === 0) {
       this.props.dispatch(getRunningBacks())
         .then(() => {
-          console.log('App - got runningBacks');
+          // console.log('App - got runningBacks');
         })
         .catch(() => {
           console.log('App - error getting runningBacks');
@@ -69,7 +61,7 @@ class App extends Component {
     if (user && this.props.players.wideReceivers.length === 0) {
       this.props.dispatch(getWideReceivers())
         .then(() => {
-          console.log('App - got wideReceivers');
+          // console.log('App - got wideReceivers');
         })
         .catch(() => {
           console.log('App - error getting wideReceivers');
@@ -80,7 +72,7 @@ class App extends Component {
     if (user && this.props.players.tightEnds.length === 0) {
       this.props.dispatch(getTightEnds())
         .then(() => {
-          console.log('App - got tightEnds');
+          // console.log('App - got tightEnds');
         })
         .catch(() => {
           console.log('App - error getting tightEnds');

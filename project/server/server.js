@@ -22,7 +22,8 @@ const Role = db.role;
 db.mongoose
 	.connect(defaultConnectionString.mongoURI, {
 		useNewUrlParser: true,
-		useUnifiedTopology: true
+		useUnifiedTopology: true,
+		useFindAndModify: false
 	})
 	.then(() => {
 		console.log('Successfully connected to MongoDB');
