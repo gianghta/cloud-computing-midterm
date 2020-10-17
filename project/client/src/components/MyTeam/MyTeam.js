@@ -14,6 +14,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Button from "@material-ui/core/Button";
 import {updateUserTeam} from "../../actions/user";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import {trimName} from "../../helpers/nameTrimmer";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -28,8 +29,6 @@ const useStyles = makeStyles((theme) => ({
   },
   editContainer: {
     marginTop: '2rem',
-    // border: '1px solid rgba(0, 0, 0, 0.12)',
-    // borderRadius: '6px',
     paddingBottom: '1rem',
   },
   loadingContainer: {
@@ -75,32 +74,32 @@ const MyTeam = (props) => {
     {
       id: 0,
       Position: 'Quarterback',
-      Player: props.players.quarterbacks.length > 0 ? props.players.quarterbacks.find(player => player._id === props.user.team.quarterback).Player : '',
+      Player: props.players.quarterbacks.length > 0 ? trimName(props.players.quarterbacks.find(player => player._id === props.user.team.quarterback).Player) : '',
     },
     {
       id: 1,
       Position: 'Running Back 1',
-      Player: props.players.runningBacks.length > 0 ? props.players.runningBacks.find(player => player._id === props.user.team.runningBack1).Player : '',
+      Player: props.players.runningBacks.length > 0 ? trimName(props.players.runningBacks.find(player => player._id === props.user.team.runningBack1).Player) : '',
     },
     {
       id: 2,
       Position: 'Running Back 2',
-      Player: props.players.runningBacks.length > 0 ? props.players.runningBacks.find(player => player._id === props.user.team.runningBack2).Player : '',
+      Player: props.players.runningBacks.length > 0 ? trimName(props.players.runningBacks.find(player => player._id === props.user.team.runningBack2).Player) : '',
     },
     {
       id: 3,
       Position: 'Wide Receiver 1',
-      Player: props.players.wideReceivers.length > 0 ? props.players.wideReceivers.find(player => player._id === props.user.team.wideReceiver1).Player : '',
+      Player: props.players.wideReceivers.length > 0 ? trimName(props.players.wideReceivers.find(player => player._id === props.user.team.wideReceiver1).Player) : '',
     },
     {
       id: 4,
       Position: 'Wide Receiver 2',
-      Player: props.players.wideReceivers.length > 0 ? props.players.wideReceivers.find(player => player._id === props.user.team.wideReceiver2).Player : '',
+      Player: props.players.wideReceivers.length > 0 ? trimName(props.players.wideReceivers.find(player => player._id === props.user.team.wideReceiver2).Player) : '',
     },
     {
       id: 5,
       Position: 'Tight End',
-      Player: props.players.tightEnds.length > 0 ? props.players.tightEnds.find(player => player._id === props.user.team.tightEnd).Player : '',
+      Player: props.players.tightEnds.length > 0 ? trimName(props.players.tightEnds.find(player => player._id === props.user.team.tightEnd).Player) : '',
     },
   ];
   const teamColumns = [
@@ -243,7 +242,7 @@ const MyTeam = (props) => {
                             onChange={e => setSelectedQuarterback(e.target.value)}
                           >
                             {props.players.quarterbacks.map((qb, i) => {
-                              return <MenuItem value={qb._id} key={i}>{qb.Player}</MenuItem>
+                              return <MenuItem value={qb._id} key={i}>{trimName(qb.Player)}</MenuItem>
                             })}
                           </Select>
                         </FormControl>
@@ -262,7 +261,7 @@ const MyTeam = (props) => {
                             onChange={e => setSelectedRunningBack1(e.target.value)}
                           >
                             {props.players.runningBacks.map((rb, i) => {
-                              return <MenuItem value={rb._id} key={i}>{rb.Player}</MenuItem>
+                              return <MenuItem value={rb._id} key={i}>{trimName(rb.Player)}</MenuItem>
                             })}
                           </Select>
                         </FormControl>
@@ -281,7 +280,7 @@ const MyTeam = (props) => {
                             onChange={e => setSelectedRunningBack2(e.target.value)}
                           >
                             {props.players.runningBacks.map((rb, i) => {
-                              return <MenuItem value={rb._id} key={i}>{rb.Player}</MenuItem>
+                              return <MenuItem value={rb._id} key={i}>{trimName(rb.Player)}</MenuItem>
                             })}
                           </Select>
                         </FormControl>
@@ -300,7 +299,7 @@ const MyTeam = (props) => {
                             onChange={e => setSelectedWideReceiver1(e.target.value)}
                           >
                             {props.players.wideReceivers.map((wr, i) => {
-                              return <MenuItem value={wr._id} key={i}>{wr.Player}</MenuItem>
+                              return <MenuItem value={wr._id} key={i}>{trimName(wr.Player)}</MenuItem>
                             })}
                           </Select>
                         </FormControl>
@@ -319,7 +318,7 @@ const MyTeam = (props) => {
                             onChange={e => setSelectedWideReceiver2(e.target.value)}
                           >
                             {props.players.wideReceivers.map((wr, i) => {
-                              return <MenuItem value={wr._id} key={i}>{wr.Player}</MenuItem>
+                              return <MenuItem value={wr._id} key={i}>{trimName(wr.Player)}</MenuItem>
                             })}
                           </Select>
                         </FormControl>
@@ -338,7 +337,7 @@ const MyTeam = (props) => {
                             onChange={e => setSelectedTightEnd(e.target.value)}
                           >
                             {props.players.tightEnds.map((te, i) => {
-                              return <MenuItem value={te._id} key={i}>{te.Player}</MenuItem>
+                              return <MenuItem value={te._id} key={i}>{trimName(te.Player)}</MenuItem>
                             })}
                           </Select>
                         </FormControl>

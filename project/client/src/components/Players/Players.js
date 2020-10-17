@@ -7,6 +7,7 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import {Container, Grid, Typography} from "@material-ui/core";
 import {DataGrid} from "@material-ui/data-grid";
 import makeStyles from "@material-ui/core/styles/makeStyles";
+import { trimName } from '../../helpers/nameTrimmer';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -26,7 +27,7 @@ const Players = (props) => {
     return quarterbacks.map(qb => {
       return {
         'id': qb['_id'],
-        'Player': qb['Player'],
+        'Player': trimName(qb['Player']),
         'Tm': qb['Tm'],
         'Yds': qb['Yds'],
         'TD': qb['TD'],
@@ -81,7 +82,7 @@ const Players = (props) => {
     return runningBacks.map(rb => {
       return {
         'id': rb['_id'],
-        'Player': rb['Player'],
+        'Player': trimName(rb['Player']),
         'Tm': rb['Tm'],
         'Yds': rb['Yds'],
         'Lng': rb['Lng'],
@@ -136,7 +137,7 @@ const Players = (props) => {
     return wideReceivers.map(wr => {
       return {
         'id': wr['_id'],
-        'Player': wr['Player'],
+        'Player': trimName(wr['Player']),
         'Tm': wr['Tm'],
         'Yds': wr['Yds'],
         'Rec': wr['Rec'],
@@ -197,7 +198,7 @@ const Players = (props) => {
     return tightEnds.map(te => {
       return {
         'id': te['_id'],
-        'Player': te['Player'],
+        'Player': trimName(te['Player']),
         'Tm': te['Tm'],
         'Yds': te['Yds'],
         'Rec': te['Rec'],
