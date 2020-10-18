@@ -5,9 +5,9 @@ import { connect } from 'react-redux';
 import {Redirect} from "react-router";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import {Container, Grid, Typography} from "@material-ui/core";
-import {DataGrid} from "@material-ui/data-grid";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import { trimName } from '../../helpers/nameTrimmer';
+import MaterialTable from "material-table";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -40,40 +40,35 @@ const Players = (props) => {
   const quarterbackColumns = [
     {
       field: 'id',
-      hide: true,
+      hidden: true,
     },
     {
       field: 'Player',
-      headerName: 'Name',
-      width: 200,
+      title: 'Name',
     },
     {
       field: 'Tm',
-      headerName: 'Team',
+      title: 'Team',
     },
     {
       field: 'Yds',
-      headerName: 'Passing Yards',
-      type: 'number',
-      width: 150,
+      title: 'Passing Yards',
+      type: 'numeric',
     },
     {
       field: 'TD',
-      headerName: 'Touchdowns',
-      type: 'number',
-      width: 150,
+      title: 'Touchdowns',
+      type: 'numeric',
     },
     {
       field: 'Int',
-      headerName: 'Interceptions',
-      type: 'number',
-      width: 150,
+      title: 'Interceptions',
+      type: 'numeric',
     },
     {
       field: 'QBR',
-      headerName: 'Quarterback Rating',
-      type: 'number',
-      width: 200,
+      title: 'Quarterback Rating',
+      type: 'numeric',
     },
   ];
 
@@ -95,40 +90,35 @@ const Players = (props) => {
   const runningBackColumns = [
     {
       field: 'id',
-      hide: true,
+      hidden: true,
     },
     {
       field: 'Player',
-      headerName: 'Name',
-      width: 200,
+      title: 'Name',
     },
     {
       field: 'Tm',
-      headerName: 'Team',
+      title: 'Team',
     },
     {
       field: 'Yds',
-      headerName: 'Total Yards',
-      type: 'number',
-      width: 150,
+      title: 'Total Yards',
+      type: 'numeric',
     },
     {
       field: 'Lng',
-      headerName: 'Longest Run',
-      type: 'number',
-      width: 150,
+      title: 'Longest Run',
+      type: 'numeric',
     },
     {
       field: 'Y/G',
-      headerName: 'Yards per Game',
-      type: 'number',
-      width: 150,
+      title: 'Yards per Game',
+      type: 'numeric',
     },
     {
       field: 'Fmb',
-      headerName: 'Fumbles',
-      type: 'number',
-      width: 150,
+      title: 'Fumbles',
+      type: 'numeric',
     },
   ];
 
@@ -151,45 +141,40 @@ const Players = (props) => {
   const wideReceiverColumns = [
     {
       field: 'id',
-      hide: true,
+      hidden: true,
     },
     {
       field: 'Player',
-      headerName: 'Name',
-      width: 200,
+      title: 'Name',
     },
     {
       field: 'Tm',
-      headerName: 'Team',
+      title: 'Team',
     },
     {
       field: 'Yds',
-      headerName: 'Total Yards',
-      type: 'number',
-      width: 150,
+      title: 'Total Yards',
+      type: 'numeric',
     },
     {
       field: 'Rec',
-      headerName: 'Receptions',
-      type: 'number',
-      width: 150,
+      title: 'Receptions',
+      type: 'numeric',
     },
     {
       field: 'Ctch%',
-      headerName: 'Catch Percentage',
-      width: 150,
+      title: 'Catch Percentage',
+      type: 'numeric',
     },
     {
       field: 'Lng',
-      headerName: 'Longest Catch',
-      type: 'number',
-      width: 150,
+      title: 'Longest Catch',
+      type: 'numeric',
     },
     {
       field: 'Y/G',
-      headerName: 'Yards per Game',
-      type: 'number',
-      width: 150,
+      title: 'Yards per Game',
+      type: 'numeric',
     },
   ];
 
@@ -212,45 +197,40 @@ const Players = (props) => {
   const tightEndColumns = [
     {
       field: 'id',
-      hide: true,
+      hidden: true,
     },
     {
       field: 'Player',
-      headerName: 'Name',
-      width: 200,
+      title: 'Name',
     },
     {
       field: 'Tm',
-      headerName: 'Team',
+      title: 'Team',
     },
     {
       field: 'Yds',
-      headerName: 'Total Yards',
-      type: 'number',
-      width: 150,
+      title: 'Total Yards',
+      type: 'numeric',
     },
     {
       field: 'Rec',
-      headerName: 'Receptions',
-      type: 'number',
-      width: 150,
+      title: 'Receptions',
+      type: 'numeric',
     },
     {
       field: 'Ctch%',
-      headerName: 'Catch Percentage',
-      width: 150,
+      title: 'Catch Percentage',
+      type: 'numeric',
     },
     {
       field: 'Lng',
-      headerName: 'Longest Catch',
-      type: 'number',
-      width: 150,
+      title: 'Longest Catch',
+      type: 'numeric',
     },
     {
       field: 'Y/G',
-      headerName: 'Yards per Game',
-      type: 'number',
-      width: 150,
+      title: 'Yards per Game',
+      type: 'numeric',
     },
   ];
 
@@ -277,8 +257,13 @@ const Players = (props) => {
             <Typography variant="h5">
               Quarter Backs
             </Typography>
-            <div style={{ height: 500, width: '100%', marginTop: '0.5rem', }}>
-              <DataGrid rows={quarterbackRowsProp} columns={quarterbackColumns} />
+            <div style={{ width: '100%', marginTop: '0.5rem', }}>
+              <MaterialTable
+                title={'Quarterbacks'}
+                isLoading={quarterbackRowsProp.length === 0}
+                columns={quarterbackColumns}
+                data={quarterbackRowsProp}
+              />
             </div>
           </Grid>
 
@@ -287,8 +272,13 @@ const Players = (props) => {
             <Typography variant="h5">
               Running Backs
             </Typography>
-            <div style={{ height: 500, width: '100%', marginTop: '0.5rem', }}>
-              <DataGrid rows={runningBackRowsProp} columns={runningBackColumns} />
+            <div style={{ width: '100%', marginTop: '0.5rem', }}>
+              <MaterialTable
+                title={'Running Backs'}
+                isLoading={runningBackRowsProp.length === 0}
+                columns={runningBackColumns}
+                data={runningBackRowsProp}
+              />
             </div>
           </Grid>
 
@@ -297,8 +287,13 @@ const Players = (props) => {
             <Typography variant="h5">
               Wide Receivers
             </Typography>
-            <div style={{ height: 500, width: '100%', marginTop: '0.5rem', }}>
-              <DataGrid rows={wideReceiverRowsProp} columns={wideReceiverColumns} />
+            <div style={{ width: '100%', marginTop: '0.5rem', }}>
+              <MaterialTable
+                title={'Wide Receivers'}
+                isLoading={wideReceiverRowsProp.length === 0}
+                columns={wideReceiverColumns}
+                data={wideReceiverRowsProp}
+              />
             </div>
           </Grid>
 
@@ -307,8 +302,13 @@ const Players = (props) => {
             <Typography variant="h5">
               Tight Ends
             </Typography>
-            <div style={{ height: 500, width: '100%', marginTop: '0.5rem', }}>
-              <DataGrid rows={tightEndRowsProp} columns={tightEndColumns} />
+            <div style={{ width: '100%', marginTop: '0.5rem', }}>
+              <MaterialTable
+                title={'Tight Ends'}
+                isLoading={tightEndRowsProp.length === 0}
+                columns={tightEndColumns}
+                data={tightEndRowsProp}
+              />
             </div>
           </Grid>
         </Grid>
