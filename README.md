@@ -1,5 +1,7 @@
-# cloud-computing-midterm
+# Cincinnati's Best Fantasy Football
+### cloud-computing-midterm
 Cloud Computing Midterm Assignment - Fantasy Football Web App hosted on Azure
+
 
 # How to run for development
 ### Start the development NodeJS server
